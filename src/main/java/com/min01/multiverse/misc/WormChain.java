@@ -1,10 +1,40 @@
 package com.min01.multiverse.misc;
 
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
 public class WormChain 
 {
+    public static void tick(Worm worm, LivingEntity owner, float distance, float speed)
+    {
+        Vec3 direction = owner.getLookAngle().normalize().scale(distance);
+        Vec3 targetPos = owner.position().subtract(direction);
+
+        worm.setPos(targetPos);
+
+        float prevYRot = worm.getYRot();
+        float prevXRot = worm.getXRot();
+
+        worm.setYRot(owner.getYRot());
+        worm.setXRot(owner.getXRot());
+
+        float yRotDiff = Mth.wrapDegrees(owner.getYRot() - prevYRot);
+        float xRotDiff = Mth.wrapDegrees(owner.getXRot() - prevXRot);
+
+        worm.setYRot(prevYRot + yRotDiff * speed);
+        worm.setXRot(prevXRot + xRotDiff * speed);
+
+        worm.setYBodyRot(worm.getYRot());
+        worm.setYHeadRot(worm.getYRot());
+
+        worm.yRotO = worm.getYRot();
+        worm.xRotO = worm.getXRot();
+        worm.yBodyRotO = worm.getYRot();
+        worm.yHeadRotO = worm.getYRot();
+    }
+    
     public static void tick(Worm worm, Worm owner, float distance, float speed)
     {
         Vec3 direction = owner.getLookAngle().normalize().scale(distance);
@@ -46,6 +76,23 @@ public class WormChain
     	public float yHeadRotO;
     	
     	private Vec3 position;
+    	
+    	public boolean setupRot;
+    	
+    	public Vec2 getRot(float partialTick)
+    	{
+            float headPitch = Mth.lerp(partialTick, this.xRotO, this.getXRot());
+            float headRot = Mth.rotLerp(partialTick, this.yHeadRotO, this.yHeadRot);
+            float bodyRot = Mth.rotLerp(partialTick, this.yBodyRotO, this.yBodyRot);
+            float realHeadRot = headRot - bodyRot;
+    		return new Vec2(headPitch, realHeadRot);
+    	}
+    	
+    	public float yRot(float partialTick)
+    	{
+            float bodyRot = Mth.rotLerp(partialTick, this.yBodyRotO, this.yBodyRot);
+    		return 180.0F - bodyRot;
+    	}
     	
     	public void setPos(Vec3 pos)
     	{
