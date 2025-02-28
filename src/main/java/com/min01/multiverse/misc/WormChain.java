@@ -75,23 +75,17 @@ public class WormChain
     	public float yHeadRot;
     	public float yHeadRotO;
     	
-    	private Vec3 position;
+    	private Vec3 position = Vec3.ZERO;
     	
     	public boolean setupRot;
     	
     	public Vec2 getRot(float partialTick)
     	{
             float headPitch = Mth.lerp(partialTick, this.xRotO, this.getXRot());
-            float headRot = Mth.rotLerp(partialTick, this.yHeadRotO, this.yHeadRot);
+            //float headRot = Mth.rotLerp(partialTick, this.yHeadRotO, this.yHeadRot);
             float bodyRot = Mth.rotLerp(partialTick, this.yBodyRotO, this.yBodyRot);
-            float realHeadRot = headRot - bodyRot;
-    		return new Vec2(headPitch, realHeadRot);
-    	}
-    	
-    	public float yRot(float partialTick)
-    	{
-            float bodyRot = Mth.rotLerp(partialTick, this.yBodyRotO, this.yBodyRot);
-    		return 180.0F - bodyRot;
+            //float realHeadRot = headRot - bodyRot;
+    		return new Vec2(headPitch, bodyRot);
     	}
     	
     	public void setPos(Vec3 pos)
@@ -127,7 +121,10 @@ public class WormChain
     	
     	public void setYRot(float yRot) 
     	{
-			this.yRot = yRot;
+    		if(Float.isFinite(yRot))
+    		{
+    			this.yRot = yRot;
+    		}
     	}
 
     	public float getXRot()
@@ -137,7 +134,10 @@ public class WormChain
 
     	public void setXRot(float xRot) 
     	{
-			this.xRot = xRot;
+    		if(Float.isFinite(xRot))
+    		{
+    			this.xRot = xRot;
+    		}
     	}
     	
     	public void setYHeadRot(float yHeadRot)
