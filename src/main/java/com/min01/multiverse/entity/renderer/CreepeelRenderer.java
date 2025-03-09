@@ -44,7 +44,7 @@ public class CreepeelRenderer extends MobRenderer<EntityCreepeel, ModelCreepeel>
 	public void renderSegment(PoseStack stack, MultiBufferSource source, int packedLight, ModelPart part, EntityCreepeel entity, Worm worm, float partialTicks)
 	{
 		stack.pushPose();
-		Vec3 pos = worm.position();
+		Vec3 pos = worm.position(partialTicks);
 		Vec2 rot = worm.getRot(partialTicks);
 		stack.scale(-1.0F, -1.0F, 1.0F);
 		stack.translate(-pos.x, -pos.y, pos.z);

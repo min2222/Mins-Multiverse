@@ -28,11 +28,6 @@ public class WormChain
 
         worm.setYBodyRot(worm.getYRot());
         worm.setYHeadRot(worm.getYRot());
-
-        worm.yRotO = worm.getYRot();
-        worm.xRotO = worm.getXRot();
-        worm.yBodyRotO = worm.getYRot();
-        worm.yHeadRotO = worm.getYRot();
     }
     
     public static void tick(Worm worm, Worm owner, float distance, float speed)
@@ -56,11 +51,6 @@ public class WormChain
 
         worm.setYBodyRot(worm.getYRot());
         worm.setYHeadRot(worm.getYRot());
-
-        worm.yRotO = worm.getYRot();
-        worm.xRotO = worm.getXRot();
-        worm.yBodyRotO = worm.getYRot();
-        worm.yHeadRotO = worm.getYRot();
     }
     
     public static class Worm
@@ -75,18 +65,11 @@ public class WormChain
     	public float yHeadRot;
     	public float yHeadRotO;
     	
+    	public double xOld;
+    	public double yOld;
+    	public double zOld;
+    	
     	private Vec3 position = Vec3.ZERO;
-    	
-    	public boolean setupRot;
-    	
-    	public Vec2 getRot(float partialTick)
-    	{
-            float headPitch = Mth.lerp(partialTick, this.xRotO, this.getXRot());
-            //float headRot = Mth.rotLerp(partialTick, this.yHeadRotO, this.yHeadRot);
-            float bodyRot = Mth.rotLerp(partialTick, this.yBodyRotO, this.yBodyRot);
-            //float realHeadRot = headRot - bodyRot;
-    		return new Vec2(headPitch, bodyRot);
-    	}
     	
     	public void setPos(Vec3 pos)
     	{
@@ -96,6 +79,45 @@ public class WormChain
     	public Vec3 position()
     	{
     		return this.position;
+    	}
+    	
+    	public Vec3 position(float partialTicks)
+    	{
+    		double x = Mth.lerp(partialTicks, this.xOld, this.getX());
+    		double y = Mth.lerp(partialTicks, this.yOld, this.getY());
+    		double z = Mth.lerp(partialTicks, this.zOld, this.getZ());
+    		return new Vec3(x, y, z);
+    	}
+    	
+    	public Vec2 getRot(float partialTick)
+    	{
+            float xRot = Mth.lerp(partialTick, this.xRotO, this.getXRot());
+            float yRot = Mth.rotLerp(partialTick, this.yBodyRotO, this.yBodyRot);
+    		return new Vec2(xRot, yRot);
+    	}
+    	
+    	public void setOldPosAndRot() 
+    	{
+    	    this.xOld = this.getX();
+    	    this.yOld = this.getY();
+    	    this.zOld = this.getZ();
+    	    this.xRotO = this.getXRot();
+    	    this.yBodyRotO = this.yBodyRot;
+    	}
+    	
+    	public double getX()
+    	{
+    		return this.position.x;
+    	}
+    	
+    	public double getY()
+    	{
+    		return this.position.y;
+    	}
+    	
+    	public double getZ()
+    	{
+    		return this.position.z;
     	}
     	
     	public Vec3 getLookAngle() 

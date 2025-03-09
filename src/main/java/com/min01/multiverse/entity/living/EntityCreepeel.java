@@ -42,7 +42,14 @@ public class EntityCreepeel extends AbstractAnimatableWaterAnimal
     @Override
     public void tick() 
     {
-    	super.tick();
+    	this.wormFrontHuge.setOldPosAndRot();
+    	this.wormBackHuge.setOldPosAndRot();
+    	this.wormFrontLarge.setOldPosAndRot();
+    	this.wormBackLarge.setOldPosAndRot();
+    	this.wormFrontMedium.setOldPosAndRot();
+    	this.wormBackMedium.setOldPosAndRot();
+    	this.wormFrontSmall.setOldPosAndRot();
+    	this.wormBackSmall.setOldPosAndRot();
     	
 		float speed = 0.35F;
 		
@@ -57,5 +64,6 @@ public class EntityCreepeel extends AbstractAnimatableWaterAnimal
 		
 		WormChain.tick(this.wormFrontSmall, this.wormBackMedium, 0.5F, speed);
 		WormChain.tick(this.wormBackSmall, this.wormFrontSmall, 0.5F, speed);
+    	super.tick();
     }
 }
