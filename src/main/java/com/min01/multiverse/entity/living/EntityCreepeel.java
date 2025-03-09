@@ -13,8 +13,6 @@ import net.minecraft.world.level.Level;
 
 public class EntityCreepeel extends AbstractAnimatableWaterAnimal
 {
-	public final Worm wormHead = new Worm();
-	
 	public final Worm wormFrontHuge = new Worm();
 	public final Worm wormBackHuge = new Worm();
 	

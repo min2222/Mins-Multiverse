@@ -10,7 +10,7 @@ public class WormChain
     public static void tick(Worm worm, LivingEntity owner, float distance, float speed)
     {
         Vec3 direction = owner.getLookAngle().normalize().scale(distance);
-        Vec3 targetPos = owner.position().subtract(direction);
+        Vec3 targetPos = Vec3.ZERO.subtract(direction);
 
         worm.setPos(targetPos);
 
