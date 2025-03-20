@@ -49,6 +49,14 @@ public class MultiverseUtil
         return vec3;
 	}
 	
+	public static Vec3 getSpreadPosition(Entity entity, double range)
+	{
+        double x = (double) entity.getX() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * (double)range + 0.5D;
+        double y = (double) entity.getY() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * (double)range + 0.5D;
+        double z = (double) entity.getZ() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * (double)range + 0.5D;
+        return new Vec3(x, y, z);
+	}
+	
 	public static Vec3 getLookPos(Vec2 rotation, Vec3 position, double left, double up, double forwards) 
 	{
 		Vec2 vec2 = rotation;
