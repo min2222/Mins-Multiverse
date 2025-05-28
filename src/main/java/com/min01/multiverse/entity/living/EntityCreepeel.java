@@ -55,16 +55,16 @@ public class EntityCreepeel extends AbstractAnimatableWaterAnimal
     	
 		float speed = 0.35F;
 		
-		WormChain.tick(this.wormFrontHuge, this, 0.0F, speed);
-		WormChain.tick(this.wormBackHuge, this.wormFrontHuge, 0.0F, speed);
+		WormChain.tick(this.wormFrontHuge, this, 0.95F, speed);
+		WormChain.tick(this.wormBackHuge, this.wormFrontHuge, 0.88F, speed);
 		
-		WormChain.tick(this.wormFrontLarge, this.wormBackHuge, 0.0F, speed);
-		WormChain.tick(this.wormBackLarge, this.wormFrontLarge, 0.0F, speed);
+		WormChain.tick(this.wormFrontLarge, this.wormBackHuge, 0.8F, speed);
+		WormChain.tick(this.wormBackLarge, this.wormFrontLarge, 0.77F, speed);
 		
-		WormChain.tick(this.wormFrontMedium, this.wormBackLarge, 0.0F, speed);
-		WormChain.tick(this.wormBackMedium, this.wormFrontMedium, 0.0F, speed);
+		WormChain.tick(this.wormFrontMedium, this.wormBackLarge, 0.7F, speed);
+		WormChain.tick(this.wormBackMedium, this.wormFrontMedium, 0.6F, speed);
 		
-		WormChain.tick(this.wormFrontSmall, this.wormBackMedium, 0.0F, speed);
-		WormChain.tick(this.wormBackSmall, this.wormFrontSmall, 0.0F, speed);
+		WormChain.tick(this.wormFrontSmall, this.wormBackMedium, 0.5F, speed);
+		WormChain.tick(this.wormBackSmall, this.wormFrontSmall, 0.5F, speed);
     }
 }

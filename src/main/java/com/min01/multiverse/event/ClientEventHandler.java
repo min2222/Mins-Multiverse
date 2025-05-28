@@ -17,14 +17,7 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public static void onFMLClientSetup(FMLClientSetupEvent event)
 	{
-		/*try
-		{
-		    AESUtil.encryptFiles(".png");
-		}
-		catch (InvalidKeyException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException | InvalidAlgorithmParameterException | NoSuchPaddingException | InvalidKeySpecException | IOException e) 
-		{
-		    e.printStackTrace();
-		}*/
+		
 	}
 	
     @SubscribeEvent
