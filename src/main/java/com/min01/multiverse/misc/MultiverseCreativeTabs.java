@@ -15,7 +15,7 @@ public class MultiverseCreativeTabs
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MinsMultiverse.MODID);
 
     public static final RegistryObject<CreativeModeTab> MINS_MULTIVERSE = CREATIVE_MODE_TAB.register("minsmultiverse", () -> CreativeModeTab.builder()
-    		.title(Component.translatable("itemGroup.minsmultiverse.minsmultiverse"))
+    		.title(Component.translatable("itemGroup.minsmultiverse"))
     		.icon(() -> new ItemStack(MultiverseItems.CREEPEEL_SPAWN_EGG.get()))
     		.displayItems((enabledFeatures, output) -> 
     		{
