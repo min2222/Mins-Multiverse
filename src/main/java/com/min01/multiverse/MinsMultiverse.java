@@ -3,6 +3,8 @@ package com.min01.multiverse;
 import com.min01.multiverse.entity.MultiverseEntities;
 import com.min01.multiverse.item.MultiverseItems;
 import com.min01.multiverse.misc.MultiverseCreativeTabs;
+import com.min01.multiverse.misc.MultiverseEntityDataSerializers;
+import com.min01.multiverse.network.MultiverseNetwork;
 
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -20,5 +22,8 @@ public class MinsMultiverse
 		MultiverseEntities.ENTITY_TYPES.register(bus);
 		MultiverseItems.ITEMS.register(bus);
 		MultiverseCreativeTabs.CREATIVE_MODE_TAB.register(bus);
+		MultiverseEntityDataSerializers.SERIALIZERS.register(bus);
+		
+		MultiverseNetwork.registerMessages();
 	}
 }

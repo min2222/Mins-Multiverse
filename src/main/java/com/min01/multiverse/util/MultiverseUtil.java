@@ -19,6 +19,11 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class MultiverseUtil 
 {
+	public static boolean isMoving(Entity entity) 
+	{
+		return entity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-6D;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static Entity getEntityByUUID(Level level, UUID uuid)
 	{

@@ -20,5 +20,6 @@ public class MultiverseCreativeTabs
     		.displayItems((enabledFeatures, output) -> 
     		{
     			output.accept(MultiverseItems.CREEPEEL_SPAWN_EGG.get());
+    			output.accept(MultiverseItems.KING_OF_SIN_SPAWN_EGG.get());
     		}).build());
 }

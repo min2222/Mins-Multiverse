@@ -1,5 +1,7 @@
 {
 	"itemGroup.minsmultiverse": "Min's Multiverse",
 	"entity.minsmultiverse.creepeel": "Creepeel",
-	"item.minsmultiverse.creepeel_spawn_egg": "Creepeel Spawn Egg"
+	"entity.minsmultiverse.king_of_sin": "King of Sin",
+	"item.minsmultiverse.creepeel_spawn_egg": "Creepeel Spawn Egg",
+	"item.minsmultiverse.king_of_sin_spawn_egg": "King of Sin Spawn Egg"
 }
