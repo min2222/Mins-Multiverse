@@ -6,6 +6,7 @@ import com.min01.multiverse.item.MultiverseItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -19,7 +20,9 @@ public class MultiverseCreativeTabs
     		.icon(() -> new ItemStack(MultiverseItems.CREEPEEL_SPAWN_EGG.get()))
     		.displayItems((enabledFeatures, output) -> 
     		{
-    			output.accept(MultiverseItems.CREEPEEL_SPAWN_EGG.get());
-    			output.accept(MultiverseItems.KING_OF_SIN_SPAWN_EGG.get());
+    			for(RegistryObject<Item> items : MultiverseItems.ITEMS.getEntries())
+    			{
+    				output.accept(items.get());
+    			}
     		}).build());
 }

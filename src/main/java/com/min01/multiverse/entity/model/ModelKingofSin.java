@@ -175,7 +175,7 @@ public class ModelKingofSin extends HierarchicalModel<EntityKingofSin>
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		MultiverseClientUtil.animateHead(this.head, netHeadYaw, headPitch);
 		
-		if((entity.hurtTime > 0 || entity.walkAnimation.isMoving()) && !MultiverseUtil.isMoving(entity))
+		if(!MultiverseUtil.isMoving(entity))
 		{
 			limbSwing = 0.0F;
 			limbSwingAmount = 0.0F;

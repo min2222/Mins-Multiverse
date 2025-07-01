@@ -65,4 +65,10 @@ public class EntityKingofSin extends AbstractAnimatableMonster
     {
     	return SoundEvents.WITHER_HURT;
     }
+    
+    @Override
+    public void push(double p_20286_, double p_20287_, double p_20288_)
+    {
+    	
+    }
 }

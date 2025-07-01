@@ -76,12 +76,6 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
     }
     
     @Override
-    public boolean removeWhenFarAway(double p_21542_) 
-    {
-    	return false;
-    }
-    
-    @Override
     public void tick()
     {
     	super.tick();
