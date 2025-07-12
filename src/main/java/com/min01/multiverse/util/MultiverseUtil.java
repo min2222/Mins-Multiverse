@@ -4,13 +4,19 @@ import java.lang.reflect.Method;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.joml.Math;
+
+import com.min01.multiverse.entity.AbstractAnimatableMonster;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.LevelEntityGetter;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.LogicalSidedProvider;
@@ -19,6 +25,75 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class MultiverseUtil 
 {
+	public static final Method GET_ENTITY = ObfuscationReflectionHelper.findMethod(Level.class, "m_142646_");
+	
+	public static Pair<Boolean, Vec3> getDodge(Entity arrow, Mob mob)
+	{
+        float width = arrow.getBbWidth() + 1.5F;
+        Vec3 arrowMotion = arrow.getDeltaMovement();
+        double vH = Math.sqrt(arrowMotion.x * arrowMotion.x + arrowMotion.z * arrowMotion.z);
+        Vec3 arrowDirection = new Vec3(arrowMotion.x / vH, arrowMotion.y / vH, arrowMotion.z / vH);
+        int rangeVertical = 16;
+        int rangeHorizontal = 24;
+        int distanceY = Math.abs((int) mob.position().y - (int) arrow.position().y);
+        if(distanceY <= rangeVertical) 
+        {
+            double distanceX = mob.position().x - arrow.position().x;
+            double distanceZ = mob.position().z - arrow.position().z;
+            double distanceH = Math.sqrt(distanceX * distanceX + distanceZ * distanceZ);
+            if(distanceH <= rangeHorizontal)
+            {
+                double cos = (arrowDirection.x * distanceX + arrowDirection.z * distanceZ) / distanceH;
+                double sin = Math.sqrt(1 - cos * cos);
+            	return Pair.of(width >= distanceH * sin, arrowDirection);
+            }
+        }
+        return Pair.of(false, Vec3.ZERO);
+	}
+	
+	public static Vec3 randomPointAroundBox(AABB box, RandomSource rand, float radius) 
+	{
+		double x = Mth.lerp(rand.nextDouble(), box.minX, box.maxX) + (rand.nextDouble() - 0.5) * radius;
+		double y = Mth.lerp(rand.nextDouble(), box.minY, box.maxY) + (rand.nextDouble() - 0.5) * radius;
+		double z = Mth.lerp(rand.nextDouble(), box.minZ, box.maxZ) + (rand.nextDouble() - 0.5) * radius;
+		return new Vec3(x, y, z);
+	}
+	
+	public static void dashSide(AbstractAnimatableMonster entity, float scale, int direction)
+	{
+		boolean isRight = direction == 1;
+		boolean isLeft = direction == 2;
+		int rot = isRight ? 180 : isLeft ? 0 : 90;
+        float f1 = (float) Math.cos(Math.toRadians(entity.getYRot() + rot));
+        float f2 = (float) Math.sin(Math.toRadians(entity.getYRot() + rot));
+        entity.push(f1 * scale, 0, f2 * scale);
+	}
+	
+	public static void dashBackward(AbstractAnimatableMonster entity, float scale, float yScale)
+	{
+        float f1 = (float) Math.cos(Math.toRadians(entity.getYRot() - 90));
+        float f2 = (float) Math.sin(Math.toRadians(entity.getYRot() - 90));
+        entity.push(f1 * scale, yScale, f2 * scale);
+	}
+	
+	public static void dashToward(AbstractAnimatableMonster entity, float scale)
+	{
+        float f1 = (float) Math.cos(Math.toRadians(entity.getYRot() + 90));
+        float f2 = (float) Math.sin(Math.toRadians(entity.getYRot() + 90));
+        entity.push(f1 * scale, 0, f2 * scale);
+	}
+	
+	public static float getMinMaxRandomValue(float min, float max)
+	{
+		return min + (float)(Math.random() * (max - min));
+	}
+	
+	public static Vec3 fromToVector(Vec3 from, Vec3 to, float scale)
+	{
+		Vec3 motion = to.subtract(from).normalize();
+		return motion.scale(scale);
+	}
+	
 	public static boolean isMoving(Entity entity) 
 	{
 		return entity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-6D;
@@ -27,10 +102,9 @@ public class MultiverseUtil
 	@SuppressWarnings("unchecked")
 	public static Entity getEntityByUUID(Level level, UUID uuid)
 	{
-		Method m = ObfuscationReflectionHelper.findMethod(Level.class, "m_142646_");
 		try 
 		{
-			LevelEntityGetter<Entity> entities = (LevelEntityGetter<Entity>) m.invoke(level);
+			LevelEntityGetter<Entity> entities = (LevelEntityGetter<Entity>) GET_ENTITY.invoke(level);
 			return entities.get(uuid);
 		}
 		catch (Exception e) 
@@ -79,6 +153,18 @@ public class MultiverseUtil
 		double d1 = vec31.y * forwards + vec32.y * up + vec33.y * left;
 		double d2 = vec31.z * forwards + vec32.z * up + vec33.z * left;
 		return new Vec3(vec3.x + d0, vec3.y + d1, vec3.z + d2);
+	}
+	
+	public static Vec2 lookAt(Vec3 startPos, Vec3 pos)
+	{
+		Vec3 vec3 = startPos;
+		double d0 = pos.x - vec3.x;
+		double d1 = pos.y - vec3.y;
+		double d2 = pos.z - vec3.z;
+		double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+		float xRot = Mth.wrapDegrees((float)(-(Mth.atan2(d1, d3) * (double)(180.0F / (float)Math.PI))));
+		float yRot = Mth.wrapDegrees((float)(Mth.atan2(d2, d0) * (double)(180.0F / (float)Math.PI)) - 90.0F);
+	    return new Vec2(xRot, yRot);
 	}
 	
 	public static float rotlerp(float p_24992_, float p_24993_, float p_24994_)

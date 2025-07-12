@@ -1,14 +1,20 @@
 package com.min01.multiverse.event;
 
 import com.min01.multiverse.MinsMultiverse;
+import com.min01.multiverse.efkefc.EfkEfcLoader;
 import com.min01.multiverse.entity.MultiverseEntities;
 import com.min01.multiverse.entity.model.ModelCreepeel;
 import com.min01.multiverse.entity.model.ModelKingofSin;
 import com.min01.multiverse.entity.renderer.CreepeelRenderer;
 import com.min01.multiverse.entity.renderer.KingofSinRenderer;
+import com.min01.multiverse.entity.renderer.NoneRenderer;
+import com.min01.multiverse.entity.renderer.SinRenderer;
+import com.min01.multiverse.obj.ObjModelManager;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -19,7 +25,21 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public static void onFMLClientSetup(FMLClientSetupEvent event)
 	{
-		
+		MinecraftForge.EVENT_BUS.register(ObjModelManager.getInstance());
+		/*try
+		{
+		    AESUtil.encryptFiles(".png");
+		}
+		catch (InvalidKeyException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException | InvalidAlgorithmParameterException | NoSuchPaddingException | InvalidKeySpecException | IOException e) 
+		{
+		    e.printStackTrace();
+		}*/
+	}
+	
+	@SubscribeEvent
+	public static void onRegisterClientReloadListeners(RegisterClientReloadListenersEvent event)
+	{
+		event.registerReloadListener(new EfkEfcLoader());
 	}
 	
     @SubscribeEvent
@@ -34,5 +54,7 @@ public class ClientEventHandler
     {
     	event.registerEntityRenderer(MultiverseEntities.CREEPEEL.get(), CreepeelRenderer::new);
     	event.registerEntityRenderer(MultiverseEntities.KING_OF_SIN.get(), KingofSinRenderer::new);
+    	event.registerEntityRenderer(MultiverseEntities.SIN.get(), SinRenderer::new);
+    	event.registerEntityRenderer(MultiverseEntities.CAMERA_SHAKE.get(), NoneRenderer::new);
     }
 }

@@ -1,0 +1,797 @@
+{
+	"EffekseerProject": {
+		"Root": {
+			"Name": "Root",
+			"Children": {
+				"Node": {
+					"CommonValues": {
+						"LocationEffectType": "0",
+						"RotationEffectType": "0",
+						"ScaleEffectType": "0",
+						"Life": {
+							"Center": "600",
+							"Max": "600",
+							"Min": "600"
+						},
+						"GenerationTime": {
+							"Center": "5.000005",
+							"Max": "10",
+							"Min": "1E-05"
+						}
+					},
+					"ScalingValues": {
+						"Fixed": {
+							"Scale": {
+								"X": "4",
+								"Y": "4",
+								"Z": "4"
+							}
+						}
+					},
+					"DrawingValues": {
+						"Type": "0"
+					},
+					"Name": "GateGenerator",
+					"Children": {
+						"Node": [
+							{
+								"CommonValues": {
+									"MaxGeneration": {
+										"Infinite": "True"
+									},
+									"Life": {
+										"Center": "80",
+										"Max": "80",
+										"Min": "80"
+									},
+									"GenerationTime": {
+										"Center": "60",
+										"Max": "60",
+										"Min": "60"
+									}
+								},
+								"LocationValues": {
+									"Fixed": {
+										"Location": {
+											"Z": "-0.0002"
+										}
+									}
+								},
+								"RotationValues": {
+									"Type": "1",
+									"PVA": {
+										"Rotation": {
+											"Z": {
+												"Max": "360",
+												"Min": "-360"
+											}
+										}
+									}
+								},
+								"ScalingValues": {
+									"Fixed": {
+										"Scale": {
+											"X": "2.25",
+											"Y": "2.25",
+											"Z": "2.25"
+										}
+									}
+								},
+								"RendererCommonValues": {
+									"ColorTexture": "Texture/Particle_Soft.png",
+									"AlphaBlend": "2",
+									"FadeInType": "1",
+									"FadeIn": {
+										"Frame": "15"
+									},
+									"FadeOutType": "1",
+									"FadeOut": {
+										"Frame": "20"
+									}
+								},
+								"DrawingValues": {
+									"ColorAll": {
+										"Fixed": {
+											"R": "0",
+											"G": "0",
+											"B": "0",
+											"A": "64"
+										}
+									},
+									"Sprite": {
+										"Billboard": "2"
+									}
+								},
+								"Name": "BaseLight",
+								"Children": ""
+							},
+							{
+								"CommonValues": {
+									"MaxGeneration": {
+										"Infinite": "True"
+									},
+									"Life": {
+										"Center": "80",
+										"Max": "80",
+										"Min": "80"
+									},
+									"GenerationTime": {
+										"Center": "60",
+										"Max": "60",
+										"Min": "60"
+									}
+								},
+								"LocationValues": {
+									"Fixed": {
+										"Location": {
+											"Z": "-0.0002"
+										}
+									}
+								},
+								"RotationValues": {
+									"Type": "1",
+									"PVA": {
+										"Rotation": {
+											"Z": {
+												"Max": "360",
+												"Min": "-360"
+											}
+										}
+									}
+								},
+								"ScalingValues": {
+									"Fixed": {
+										"Scale": {
+											"X": "1.25",
+											"Y": "1.25",
+											"Z": "1.25"
+										}
+									}
+								},
+								"RendererCommonValues": {
+									"ColorTexture": "Texture/Particle_Soft.png",
+									"ZTest": "False",
+									"FadeInType": "1",
+									"FadeIn": {
+										"Frame": "15"
+									},
+									"FadeOutType": "1",
+									"FadeOut": {
+										"Frame": "30"
+									}
+								},
+								"DrawingValues": {
+									"ColorAll": {
+										"Fixed": {
+											"R": "0",
+											"G": "0",
+											"B": "0",
+											"A": "240"
+										}
+									},
+									"Sprite": {
+										"Billboard": "2"
+									}
+								},
+								"Name": "BaseLight",
+								"Children": ""
+							},
+							{
+								"CommonValues": {
+									"MaxGeneration": {
+										"Infinite": "True"
+									},
+									"Life": {
+										"Center": "150",
+										"Max": "156",
+										"Min": "144"
+									},
+									"GenerationTime": {
+										"Center": "30",
+										"Max": "37",
+										"Min": "23"
+									}
+								},
+								"RotationValues": {
+									"Type": "1",
+									"PVA": {
+										"Velocity": {
+											"Z": {
+												"Max": "0.1",
+												"Min": "-0.1"
+											}
+										}
+									}
+								},
+								"ScalingValues": {
+									"Type": "2",
+									"Easing": {
+										"Start": {
+											"X": {
+												"Center": "0.1",
+												"Max": "0.1",
+												"Min": "0.1"
+											},
+											"Y": {
+												"Center": "0.1",
+												"Max": "0.1",
+												"Min": "0.1"
+											},
+											"Z": {
+												"Center": "0.1",
+												"Max": "0.1",
+												"Min": "0.1"
+											}
+										},
+										"End": {
+											"X": {
+												"Center": "1.25",
+												"Max": "1.35",
+												"Min": "1.15"
+											},
+											"Y": {
+												"Center": "1.25",
+												"Max": "1.35",
+												"Min": "1.15"
+											},
+											"Z": {
+												"Center": "1.25",
+												"Max": "1.35",
+												"Min": "1.15"
+											}
+										},
+										"StartSpeed": "-10"
+									}
+								},
+								"RendererCommonValues": {
+									"ColorTexture": "Texture/Wind.png",
+									"AlphaBlend": "2",
+									"ZTest": "False",
+									"FadeInType": "1",
+									"FadeIn": {
+										"Frame": "12"
+									},
+									"FadeOutType": "1",
+									"FadeOut": {
+										"Frame": "20"
+									}
+								},
+								"DrawingValues": {
+									"ColorAll": {
+										"Fixed": {
+											"R": "118",
+											"G": "118",
+											"B": "118",
+											"A": "96"
+										}
+									},
+									"Sprite": {
+										"Billboard": "2"
+									}
+								},
+								"Name": "Wave_Light",
+								"Children": ""
+							},
+							{
+								"CommonValues": {
+									"MaxGeneration": {
+										"Value": "2"
+									},
+									"Life": {
+										"Center": "120",
+										"Max": "126",
+										"Min": "114"
+									},
+									"GenerationTime": {
+										"Center": "30",
+										"Max": "37",
+										"Min": "23"
+									}
+								},
+								"RotationValues": {
+									"Type": "1",
+									"PVA": {
+										"Velocity": {
+											"Z": {
+												"Max": "0.1",
+												"Min": "-0.1"
+											}
+										}
+									}
+								},
+								"ScalingValues": {
+									"Type": "2",
+									"Easing": {
+										"Start": {
+											"X": {
+												"Center": "0.6",
+												"Max": "0.6",
+												"Min": "0.6"
+											},
+											"Y": {
+												"Center": "0.6",
+												"Max": "0.6",
+												"Min": "0.6"
+											},
+											"Z": {
+												"Center": "0.6",
+												"Max": "0.6",
+												"Min": "0.6"
+											}
+										},
+										"End": {
+											"X": {
+												"Center": "1.25",
+												"Max": "1.35",
+												"Min": "1.15"
+											},
+											"Y": {
+												"Center": "1.25",
+												"Max": "1.35",
+												"Min": "1.15"
+											},
+											"Z": {
+												"Center": "1.25",
+												"Max": "1.35",
+												"Min": "1.15"
+											}
+										}
+									}
+								},
+								"RendererCommonValues": {
+									"ColorTexture": "Texture/Wind.png",
+									"AlphaBlend": "2",
+									"ZTest": "False",
+									"FadeInType": "1",
+									"FadeIn": {
+										"Frame": "12"
+									},
+									"FadeOutType": "1",
+									"FadeOut": {
+										"Frame": "20"
+									}
+								},
+								"DrawingValues": {
+									"ColorAll": {
+										"Fixed": {
+											"R": "118",
+											"G": "118",
+											"B": "118",
+											"A": "96"
+										}
+									},
+									"Sprite": {
+										"Billboard": "2"
+									}
+								},
+								"Name": "Wave_Light_TEMP",
+								"Children": ""
+							},
+							{
+								"CommonValues": {
+									"MaxGeneration": {
+										"Infinite": "True"
+									},
+									"LocationEffectType": "0",
+									"RotationEffectType": "0",
+									"ScaleEffectType": "0",
+									"GenerationTime": {
+										"Center": "8",
+										"Max": "8",
+										"Min": "8"
+									}
+								},
+								"DrawingValues": {
+									"Type": "0"
+								},
+								"Name": "Samon",
+								"Children": {
+									"Node": [
+										{
+											"CommonValues": {
+												"Life": {
+													"Center": "28",
+													"Max": "38",
+													"Min": "18"
+												}
+											},
+											"ScalingValues": {
+												"Type": "1",
+												"Fixed": {
+													"Scale": {
+														"X": "9",
+														"Y": "9"
+													}
+												},
+												"PVA": {
+													"Scale": {
+														"X": {
+															"Center": "0.05",
+															"Max": "0.05",
+															"Min": "0.05"
+														},
+														"Y": {
+															"Center": "0.1",
+															"Max": "0.1",
+															"Min": "0.1"
+														},
+														"Z": {
+															"Center": "0.05",
+															"Max": "0.05",
+															"Min": "0.05"
+														}
+													},
+													"Velocity": {
+														"X": {
+															"Center": "0.02",
+															"Max": "0.03",
+															"Min": "0.01"
+														},
+														"Y": {
+															"Center": "0.06",
+															"Max": "0.07",
+															"Min": "0.05"
+														},
+														"Z": {
+															"Center": "0.02",
+															"Max": "0.03",
+															"Min": "0.01"
+														}
+													}
+												}
+											},
+											"RendererCommonValues": {
+												"ColorTexture": "Texture/Star.png",
+												"AlphaBlend": "2",
+												"ZTest": "False",
+												"FadeInType": "1",
+												"FadeIn": {
+													"Frame": "6"
+												},
+												"FadeOutType": "1",
+												"FadeOut": {
+													"Frame": "18"
+												}
+											},
+											"DrawingValues": {
+												"ColorAll": {
+													"Fixed": {
+														"R": "118",
+														"G": "118",
+														"B": "118",
+														"A": "96"
+													}
+												}
+											},
+											"Name": "Ray",
+											"Children": ""
+										},
+										{
+											"CommonValues": {
+												"Life": {
+													"Center": "20",
+													"Max": "28",
+													"Min": "12"
+												}
+											},
+											"RotationValues": {
+												"Type": "1",
+												"PVA": {
+													"Rotation": {
+														"Z": {
+															"Max": "360",
+															"Min": "-360"
+														}
+													}
+												}
+											},
+											"ScalingValues": {
+												"Type": "1",
+												"Fixed": {
+													"Scale": {
+														"X": "4",
+														"Y": "4",
+														"Z": "4"
+													}
+												},
+												"PVA": {
+													"Scale": {
+														"X": {
+															"Center": "0.1",
+															"Max": "0.1",
+															"Min": "0.1"
+														},
+														"Y": {
+															"Center": "0.1",
+															"Max": "0.1",
+															"Min": "0.1"
+														},
+														"Z": {
+															"Center": "0.1",
+															"Max": "0.1",
+															"Min": "0.1"
+														}
+													},
+													"Velocity": {
+														"X": {
+															"Center": "0.02",
+															"Max": "0.02",
+															"Min": "0.02"
+														},
+														"Y": {
+															"Center": "0.02",
+															"Max": "0.02",
+															"Min": "0.02"
+														},
+														"Z": {
+															"Center": "0.02",
+															"Max": "0.02",
+															"Min": "0.02"
+														}
+													}
+												}
+											},
+											"RendererCommonValues": {
+												"ColorTexture": "Texture/Particle_Soft.png",
+												"AlphaBlend": "2",
+												"ZTest": "False",
+												"FadeInType": "1",
+												"FadeIn": {
+													"Frame": "15"
+												},
+												"FadeOutType": "1",
+												"FadeOut": {
+													"Frame": "25"
+												}
+											},
+											"DrawingValues": {
+												"ColorAll": {
+													"Fixed": {
+														"R": "118",
+														"G": "118",
+														"B": "118",
+														"A": "96"
+													}
+												},
+												"Sprite": {
+													"Billboard": "3"
+												}
+											},
+											"Name": "Flash",
+											"Children": ""
+										}
+									]
+								}
+							},
+							{
+								"CommonValues": {
+									"Life": {
+										"Center": "21",
+										"Max": "21",
+										"Min": "21"
+									}
+								},
+								"ScalingValues": {
+									"Type": "2",
+									"Easing": {
+										"End": {
+											"X": {
+												"Center": "4",
+												"Max": "4",
+												"Min": "4"
+											},
+											"Y": {
+												"Center": "4",
+												"Max": "4",
+												"Min": "4"
+											},
+											"Z": {
+												"Center": "4",
+												"Max": "4",
+												"Min": "4"
+											}
+										}
+									}
+								},
+								"RendererCommonValues": {
+									"ColorTexture": "Texture/Particle_Soft.png",
+									"AlphaBlend": "2",
+									"ZTest": "False",
+									"FadeInType": "1",
+									"FadeIn": {
+										"Frame": "3"
+									},
+									"FadeOutType": "1",
+									"FadeOut": {
+										"Frame": "15"
+									}
+								},
+								"DrawingValues": {
+									"ColorAll": {
+										"Fixed": {
+											"R": "118",
+											"G": "118",
+											"B": "118",
+											"A": "96"
+										}
+									}
+								},
+								"Name": "Flash",
+								"Children": ""
+							},
+							{
+								"CommonValues": {
+									"Life": {
+										"Center": "28",
+										"Max": "28",
+										"Min": "28"
+									}
+								},
+								"ScalingValues": {
+									"Type": "2",
+									"Easing": {
+										"Start": {
+											"X": {
+												"Center": "4",
+												"Max": "4",
+												"Min": "4"
+											},
+											"Y": {
+												"Center": "4",
+												"Max": "4",
+												"Min": "4"
+											},
+											"Z": {
+												"Center": "4",
+												"Max": "4",
+												"Min": "4"
+											}
+										}
+									}
+								},
+								"RendererCommonValues": {
+									"ColorTexture": "Texture/Particle_Soft.png",
+									"AlphaBlend": "2",
+									"ZTest": "False",
+									"FadeInType": "1",
+									"FadeIn": {
+										"Frame": "3"
+									},
+									"FadeOutType": "1",
+									"FadeOut": {
+										"Frame": "21"
+									}
+								},
+								"DrawingValues": {
+									"ColorAll": {
+										"Fixed": {
+											"R": "118",
+											"G": "118",
+											"B": "118",
+											"A": "96"
+										}
+									}
+								},
+								"Name": "Flash",
+								"Children": ""
+							},
+							{
+								"CommonValues": {
+									"Life": {
+										"Center": "21",
+										"Max": "21",
+										"Min": "21"
+									}
+								},
+								"ScalingValues": {
+									"Type": "2",
+									"Easing": {
+										"Start": {
+											"X": {
+												"Center": "0.5",
+												"Max": "0.5",
+												"Min": "0.5"
+											},
+											"Y": {
+												"Center": "0.5",
+												"Max": "0.5",
+												"Min": "0.5"
+											},
+											"Z": {
+												"Center": "0.5",
+												"Max": "0.5",
+												"Min": "0.5"
+											}
+										},
+										"End": {
+											"X": {
+												"Center": "1.3",
+												"Max": "1.3",
+												"Min": "1.3"
+											},
+											"Y": {
+												"Center": "1.3",
+												"Max": "1.3",
+												"Min": "1.3"
+											},
+											"Z": {
+												"Center": "1.3",
+												"Max": "1.3",
+												"Min": "1.3"
+											}
+										},
+										"EndSpeed": "-30"
+									}
+								},
+								"RendererCommonValues": {
+									"ColorTexture": "Texture/Shockwave.png",
+									"AlphaBlend": "2",
+									"ZTest": "False",
+									"FadeInType": "1",
+									"FadeIn": {
+										"Frame": "3"
+									},
+									"FadeOutType": "1",
+									"FadeOut": {
+										"Frame": "18"
+									}
+								},
+								"DrawingValues": {
+									"ColorAll": {
+										"Fixed": {
+											"R": "118",
+											"G": "118",
+											"B": "118",
+											"A": "96"
+										}
+									},
+									"Sprite": {
+										"Billboard": "2"
+									}
+								},
+								"Name": "Shockwave",
+								"Children": ""
+							}
+						]
+					}
+				}
+			}
+		},
+		"Culling": {
+			"Type": "1",
+			"Sphere": {
+				"Radius": "14",
+				"Location": {
+					"X": "-1"
+				}
+			}
+		},
+		"Dynamic": {
+			"Inputs": {
+				"DynamicInput": [
+					{
+						"Input": "0"
+					},
+					{
+						"Input": "0"
+					},
+					{
+						"Input": "0"
+					},
+					{
+						"Input": "0"
+					}
+				]
+			},
+			"Equations": ""
+		},
+		"ProceduralModel": {
+			"ProceduralModels": ""
+		},
+		"ToolVersion": "1.70e",
+		"Version": "3",
+		"StartFrame": "0",
+		"EndFrame": "50",
+		"IsLoop": "True"
+	}
+}

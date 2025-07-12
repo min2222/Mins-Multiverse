@@ -182,6 +182,7 @@ public class ModelKingofSin extends HierarchicalModel<EntityKingofSin>
 		}
 		
 		this.animate(entity.idleAnimationState, KingofSinAnimation.KING_OF_SIN_IDLE, ageInTicks);
+		this.animate(entity.crossAnimationState, KingofSinAnimation.KING_OF_SIN_ARM_CROSSED, ageInTicks);
 		this.animateWalk(KingofSinAnimation.KING_OF_SIN_WALK, limbSwing, limbSwingAmount, 3.5F, 2.5F);
 	}
 	
