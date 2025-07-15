@@ -59,6 +59,7 @@ public class EfkEfcLoader implements ResourceManagerReloadListener
 	public static void init(ResourceManager manager) throws IOException
 	{
 		add(manager, "sin_gate");
+		add(manager, "scarlet_gate");
 		add(manager, "sin_spear");
 	}
 	

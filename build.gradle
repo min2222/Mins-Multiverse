@@ -159,7 +159,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 	annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
     implementation fg.deobf("curse.maven:assets-protector-1032813:6755759")
-	implementation fg.deobf("curse.maven:tickrate-api-969702:6757866")
+	implementation fg.deobf("curse.maven:tickrate-api-969702:6770576")
 
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime

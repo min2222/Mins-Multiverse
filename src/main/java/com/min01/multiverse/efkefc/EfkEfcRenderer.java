@@ -33,13 +33,11 @@ public class EfkEfcRenderer
 	public final Minecraft minecraft = MultiverseClientUtil.MC;
 	public final Random random = new Random();
 	
-	public final List<EfkEfcNode> nodes;
     public final Map<String, Object> globalProperties;
     public final List<EfkEfcEmitter> emitters = new ArrayList<>();
 	
 	public EfkEfcRenderer(List<EfkEfcNode> nodes, Map<String, Object> globalProperties)
 	{
-		this.nodes = nodes;
         this.globalProperties = globalProperties;
         for(EfkEfcNode node : nodes)
         {
@@ -77,11 +75,11 @@ public class EfkEfcRenderer
 	    //float startFrame = Float.parseFloat((String) this.globalProperties.getOrDefault("StartFrame", 0));
 	    //float endFrame = Float.parseFloat((String) this.globalProperties.getOrDefault("EndFrame", 20));
 
-	    float lifeTime = 0;
+	    float lifeTime = 100;
 	    
 	    int maxGen = 1;
 	    int offset = 0;
-	    int billboardType = -1;
+	    int billboardType = 2;
 	    int vertexCount = 3;
 	    float spawnRate = 1;
 	    float centerRatio = 0.5F;
@@ -178,9 +176,14 @@ public class EfkEfcRenderer
 		    if(ring != null)
 		    {
 		    	String vc = (String) ring.get("VertexCount");
+		    	String ratio = (String) ring.get("CenterRatio_Fixed");
 		    	if(vc != null)
 		    	{
 		    		vertexCount = Integer.parseInt(vc);
+		    	}
+		    	if(ratio != null)
+		    	{
+			    	centerRatio = Float.parseFloat(ratio);
 		    	}
 		    	this.setRingValues(ring, outerRadius, innerRadius, types);
 		    	this.setRingColorValues(ring, outerEasingColors, innerEasingColors, centerEasingColors, types);
@@ -342,12 +345,28 @@ public class EfkEfcRenderer
 		    	    {
 		    	    	alphaBlend = Integer.parseInt(blendType);
 		    	    }
-		    	    
+		    		
 		    	    RenderType render = alphaBlend == 2 ? MultiverseRenderType.additive(texture) : MultiverseRenderType.blend(texture);
-		    	    
+			    	
+			    	float alpha = 1.0F;
+
+			    	if(fadeIn > 0.0F && age < fadeIn)
+			    	{
+			    	    float t = age / fadeIn;
+			    	    alpha *= this.fade(0.0F, 1.0F, t, 0, 0);
+			    	}
+
+			    	if(fadeOut > 0.0F && age > efkefc.life - fadeOut)
+			    	{
+			    	    float t = (age - (efkefc.life - fadeOut)) / fadeOut;
+			    	    alpha *= this.fade(1.0F, 0.0F, t, 0, 0);
+			    	}
+			    	
 		    	    if(renderType.equals("Sprite"))
 		    	    {
 				    	Vector4f col = new Vector4f(1);
+
+				    	col.w *= alpha;
 				    	
 				    	if(typeList.contains("FixedColor")) 
 				    	{
@@ -365,22 +384,6 @@ public class EfkEfcRenderer
 					    	col.set(c.x / 255, c.y / 255, c.z / 255, c.w / 255);
 				    	}
 				    	
-				    	float alpha = 1.0F;
-
-				    	if(fadeIn > 0.0F && age < fadeIn)
-				    	{
-				    	    float t = age / fadeIn;
-				    	    alpha *= this.fade(0.0F, 1.0F, t, 0, 0);
-				    	}
-
-				    	if(fadeOut > 0.0F && age > efkefc.life - fadeOut)
-				    	{
-				    	    float t = (age - (efkefc.life - fadeOut)) / fadeOut;
-				    	    alpha *= this.fade(1.0F, 0.0F, t, 0, 0);
-				    	}
-
-				    	col.w *= alpha;
-				    	
 				    	Vector4f[] color = new Vector4f[] {col, col, col, col};
 				    	
 				    	this.drawQuad(stack, bufferSource.getBuffer(render), coords, color, LightTexture.FULL_BRIGHT);
@@ -394,23 +397,38 @@ public class EfkEfcRenderer
 
 			    		Vector2f innerRadiusEasingStart = innerRadius[3];
 			    		Vector2f innerRadiusEasingEnd = innerRadius[4];
-			    		
+
+				    	Vector4f innerCol = new Vector4f(1);
+				    	Vector4f centerCol = new Vector4f(1);
+				    	Vector4f outerCol = new Vector4f(1);
+
+				    	innerCol.w *= alpha;
+				    	centerCol.w *= alpha;
+				    	outerCol.w *= alpha;
+
 			    		Vector4f innerColor = this.get2Point(easedT, innerEasingColors[0], innerEasingColors[1]);
 			    		Vector4f centerColor = this.get2Point(easedT, centerEasingColors[0], centerEasingColors[1]);
 			    		Vector4f outerColor = this.get2Point(easedT, outerEasingColors[0], outerEasingColors[1]);
 			    		
-				    	Vector4f innerCol = new Vector4f(1);
-				    	Vector4f centerCol = new Vector4f(1);
-				    	Vector4f outerCol = new Vector4f(1);
+				    	if(types.contains("EasingColorInner"))
+				    	{
+					    	innerCol.set(innerColor.x / 255, innerColor.y / 255, innerColor.z / 255, innerColor.w / 255);
+				    	}
 				    	
-				    	innerCol.set(innerColor.x / 255, innerColor.y / 255, innerColor.z / 255, innerColor.w / 255);
-				    	centerCol.set(centerColor.x / 255, centerColor.y / 255, centerColor.z / 255, centerColor.w / 255);
-				    	outerCol.set(outerColor.x / 255, outerColor.y / 255, outerColor.z / 255, outerColor.w / 255);
+				    	if(types.contains("EasingColorCenter"))
+				    	{
+					    	centerCol.set(centerColor.x / 255, centerColor.y / 255, centerColor.z / 255, centerColor.w / 255);
+				    	}
+				    	
+				    	if(types.contains("EasingColorOuter"))
+				    	{
+					    	outerCol.set(outerColor.x / 255, outerColor.y / 255, outerColor.z / 255, outerColor.w / 255);
+				    	}
 			    		
 			    		Vector2f outer = this.get2Point(easedT, outerRadiusEasingStart, outerRadiusEasingEnd);
 			    		Vector2f inner = this.get2Point(easedT, innerRadiusEasingStart, innerRadiusEasingEnd);
 			    		
-		    	    	MultiverseClientUtil.drawRing(inner.x, outer.x, inner.y, outer.y, centerRatio, vertexCount, stack, bufferSource, innerCol, centerCol, outerCol, LightTexture.FULL_BRIGHT, render, Vec3.ZERO);
+			    		MultiverseClientUtil.drawRing(inner.x, outer.x, inner.y, outer.y, centerRatio, vertexCount, stack, bufferSource, innerCol, centerCol, outerCol, LightTexture.FULL_BRIGHT, render, Vec3.ZERO);
 		    	    }
 		    	}
 		    	
@@ -449,13 +467,35 @@ public class EfkEfcRenderer
 	public Vector3f get2Point(float time, Vector3f start, Vector3f end)
 	{
         Vector3f size = new Vector3f(end).sub(start);
-        return new Vector3f(start).fma(time, size);
+        Vector3f result = new Vector3f(start).fma(time, size);
+        if(Float.isNaN(result.x))
+        {
+        	result.set(start.x, result.y, result.z);
+        }
+        if(Float.isNaN(result.y))
+        {
+        	result.set(result.x, start.y, result.z);
+        }
+        if(Float.isNaN(result.z))
+        {
+        	result.set(result.x, result.y, start.z);
+        }
+        return result;
 	}
 	
 	public Vector2f get2Point(float time, Vector2f start, Vector2f end)
 	{
         Vector2f size = new Vector2f(end).sub(start);
-        return new Vector2f(start).fma(time, size);
+        Vector2f result = new Vector2f(start).fma(time, size);
+        if(Float.isNaN(result.x))
+        {
+        	result.set(start.x, result.y);
+        }
+        if(Float.isNaN(result.y))
+        {
+        	result.set(result.x, start.y);
+        }
+        return result;
 	}
 	
 	public float[] easing(float a1, float a2)
@@ -591,17 +631,17 @@ public class EfkEfcRenderer
     	if(outerEasing != null)
     	{
     		this.setEasingColor(outer[0], outer[1], outerEasing);
-    		types.add("EasingOuter");
+    		types.add("EasingColorOuter");
     	}
     	if(innerEasing != null)
     	{
     		this.setEasingColor(inner[0], inner[1], innerEasing);
-    		types.add("EasingInner");
+    		types.add("EasingColorInner");
     	}
     	if(centerEasing != null)
     	{
     		this.setEasingColor(center[0], center[1], centerEasing);
-    		types.add("EasingCenter");
+    		types.add("EasingColorCenter");
     	}
     }
     

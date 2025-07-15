@@ -3,6 +3,8 @@
 	"entity.minsmultiverse.creepeel": "Creepeel",
 	"entity.minsmultiverse.king_of_sin": "King of Sin",
 	"entity.minsmultiverse.sin": "Sin",
+	"entity.minsmultiverse.rakta": "Rakta, the Scarlet Demise",
+	"entity.minsmultiverse.scarlet_magic": "Scarlet Magic",
 	"entity.minsmultiverse.camera_shake": "Camera Shake",
 	"item.minsmultiverse.cupiditas": "Cupiditas",
 	"item.minsmultiverse.desidia": "Desidia",
@@ -12,5 +14,6 @@
 	"item.minsmultiverse.luxuria": "Luxuria",
 	"item.minsmultiverse.superbia": "Superbia",
 	"item.minsmultiverse.creepeel_spawn_egg": "Creepeel Spawn Egg",
-	"item.minsmultiverse.king_of_sin_spawn_egg": "King of Sin Spawn Egg"
+	"item.minsmultiverse.king_of_sin_spawn_egg": "King of Sin Spawn Egg",
+	"item.minsmultiverse.rakta_spawn_egg": "Rakta, the Scarlet Demise Spawn Egg"
 }
