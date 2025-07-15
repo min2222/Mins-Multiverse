@@ -34,7 +34,7 @@ public class ClientEventHandler
 		{
 		    AESUtil.encryptFiles(".png");
 		}
-		catch (InvalidKeyException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException | InvalidAlgorithmParameterException | NoSuchPaddingException | InvalidKeySpecException | IOException e) 
+		catch (Exception e) 
 		{
 		    e.printStackTrace();
 		}*/
