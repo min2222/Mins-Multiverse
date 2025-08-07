@@ -33,18 +33,15 @@ public class KingofSinGateGoal extends AbstractKingofSinGoal
 		super.tick();
 		if(this.mob.getTarget() != null)
 		{
-			for(int i = 0; i < 5; i++)
-			{
-				Vec2 rot = MultiverseUtil.lookAt(this.mob.getEyePosition(), this.mob.getTarget().getEyePosition());
-				Vec3 pos = MultiverseUtil.getLookPos(rot, this.mob.position(), MultiverseUtil.getMinMaxRandomValue(-64.0F, 64.0F), MultiverseUtil.getMinMaxRandomValue(5, 64), MultiverseUtil.getMinMaxRandomValue(-2, 2));
-				EntitySin sin = new EntitySin(this.mob.level, this.mob);
-				sin.setPos(pos);
-				sin.setDeltaMovement(Vec3.ZERO);
-				rot = MultiverseUtil.lookAt(pos, this.mob.getTarget().getEyePosition());
-				sin.setRotation(new Vec3(rot.x, rot.y, 0.0F));
-				sin.setSinType(SinType.GATE);
-				this.mob.level.addFreshEntity(sin);
-			}
+			Vec2 rot = MultiverseUtil.lookAt(this.mob.getEyePosition(), this.mob.getTarget().getEyePosition());
+			Vec3 pos = MultiverseUtil.getLookPos(rot, this.mob.position(), MultiverseUtil.getMinMaxRandomValue(-64.0F, 64.0F), MultiverseUtil.getMinMaxRandomValue(5, 64), MultiverseUtil.getMinMaxRandomValue(-2, 2));
+			EntitySin sin = new EntitySin(this.mob.level, this.mob);
+			sin.setPos(pos);
+			sin.setDeltaMovement(Vec3.ZERO);
+			rot = MultiverseUtil.lookAt(pos, this.mob.getTarget().getEyePosition());
+			sin.setRotation(new Vec3(rot.x, rot.y, 0.0F));
+			sin.setSinType(SinType.GATE);
+			this.mob.level.addFreshEntity(sin);
 		}
 	}
 
@@ -63,7 +60,7 @@ public class KingofSinGateGoal extends AbstractKingofSinGoal
 	@Override
 	protected int getSkillUsingTime()
 	{
-		return 200;
+		return 100;
 	}
 	
 	@Override
@@ -75,6 +72,6 @@ public class KingofSinGateGoal extends AbstractKingofSinGoal
 	@Override
 	protected int getSkillUsingInterval() 
 	{
-		return 600;
+		return 20;
 	}
 }

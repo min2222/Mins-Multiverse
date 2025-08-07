@@ -1,5 +1,5 @@
 {
-	"parent": "minecraft:item/handheld",
+	"parent": "minsmultiverse:item/handheld_32",
 	"textures": {
 		"layer0": "minsmultiverse:item/gula"
 	}

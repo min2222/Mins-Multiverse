@@ -20,7 +20,9 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AnimationState;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -83,28 +85,26 @@ public class EntityKingofSin extends AbstractAnimatableMonster
         		this.getLookControl().setLookAt(this.getTarget(), 30.0F, 30.0F);
             	this.lookAt(this.getTarget(), 30.0F, 30.0F);
     		}
-    		List<Projectile> list = this.level.getEntitiesOfClass(Projectile.class, this.getBoundingBox().inflate(2), t ->
-    		{
-    			return !(t instanceof EntitySin) && (t.getOwner() != null ? !t.getOwner().isAlliedTo(this) : true) && MultiverseUtil.getDodge(t, this).getLeft();
-    		});
+    		List<Entity> list = this.level.getEntitiesOfClass(Entity.class, this.getBoundingBox().inflate(2), t -> t != this && !(t instanceof LivingEntity) && !(t instanceof EntitySin) && !t.isAlliedTo(this));
     		list.forEach(t ->
     		{
     			Pair<Boolean, Vec3> dodge = MultiverseUtil.getDodge(t, this);
     			if(dodge.getLeft())
     			{
-    				EntitySin sin = new EntitySin(this.level, this);
-    				Vec2 rot = MultiverseUtil.lookAt(t.position(), this.getEyePosition());
-    				Vec2 lookAt = MultiverseUtil.lookAt(t.position(), this.getTarget().getEyePosition());
-    				sin.setPos(t.position());
-    				sin.setSinType(SinType.BLOCKING);
-    				sin.setDeltaMovement(Vec3.ZERO);
-    				sin.setRotation(new Vec3(90, rot.y, 0));
-    				sin.setTargetRotation(new Vec3(lookAt.x, rot.y, 0));
-    				this.level.addFreshEntity(sin);
-    				if(t instanceof Projectile)
-    				{
-    					t.setDeltaMovement(Vec3.ZERO);
-    				}
+					boolean flag = t instanceof Projectile proj && proj.getOwner() != null ? !proj.getOwner().isAlliedTo(this) : true;
+					if(flag)
+					{
+        				EntitySin sin = new EntitySin(this.level, this);
+        				Vec2 rot = MultiverseUtil.lookAt(this.getEyePosition(), t.position());
+        				Vec2 lookAt = MultiverseUtil.lookAt(this.getTarget().getEyePosition(), t.position());
+        				sin.setPos(t.position());
+        				sin.setSinType(SinType.BLOCKING);
+        				sin.setDeltaMovement(Vec3.ZERO);
+        				sin.setRotation(new Vec3(90, rot.y, 0));
+        				sin.setTargetRotation(new Vec3(lookAt.x, rot.y, 0));
+        				this.level.addFreshEntity(sin);
+    					t.discard();
+					}
     			}
     		});
     	}
@@ -112,6 +112,13 @@ public class EntityKingofSin extends AbstractAnimatableMonster
     	{
     		//this.level.broadcastEntityEvent(this, (byte) 99);
     	}
+    }
+    
+    @Override
+    protected void updateWalkAnimation(float p_268283_) 
+    {
+        float f = Math.min(p_268283_ * 6.0F, 1.0F);
+        this.walkAnimation.update(f, 0.4F);
     }
     
     @Override

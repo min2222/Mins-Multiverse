@@ -23,7 +23,7 @@ public class KingofSinSwordBarrageGoal extends AbstractKingofSinGoal
 	@Override
 	public boolean additionalStartCondition() 
 	{
-		return this.mob.distanceTo(this.mob.getTarget()) <= 3.0F;
+		return this.mob.distanceTo(this.mob.getTarget()) <= 5.0F;
 	}
 
 	@Override
@@ -68,6 +68,6 @@ public class KingofSinSwordBarrageGoal extends AbstractKingofSinGoal
 	@Override
 	protected int getSkillUsingInterval() 
 	{
-		return 100;
+		return 40;
 	}
 }

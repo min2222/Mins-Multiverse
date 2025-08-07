@@ -70,14 +70,14 @@ public class EntitySin extends ThrowableProjectile
 		{
 			if(owner != null)
 			{
-				if(this.tickCount == 20)
+				if(this.tickCount == 15)
 				{
 					Vec3 rotation = this.getRotation();
 					Vec2 rot = new Vec2((float)rotation.x, (float)rotation.y);
 					Vec3 lookPos = MultiverseUtil.getLookPos(rot, this.position(), 0, 0, 10);
 					EntitySin spear = new EntitySin(this.level, owner);
 					spear.setPos(this.position());
-					spear.setDeltaMovement(MultiverseUtil.fromToVector(this.position(), lookPos, 1.5F));
+					spear.setDeltaMovement(MultiverseUtil.fromToVector(this.position(), lookPos, 5.5F));
 					spear.setSinType(SinType.GATE_SWORD);
 					this.level.addFreshEntity(spear);
 				}
@@ -208,7 +208,7 @@ public class EntitySin extends ThrowableProjectile
 	
 	public static enum SinType
 	{
-		GATE(50, 15.0F, false),
+		GATE(50, 10.0F, false),
 		GATE_SWORD(100, 0.5F, true),
 		BLOCKING(200, 0.5F, true);
 		
