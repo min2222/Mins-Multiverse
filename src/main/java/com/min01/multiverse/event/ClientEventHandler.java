@@ -32,7 +32,7 @@ public class ClientEventHandler
 		MinecraftForge.EVENT_BUS.register(ObjModelManager.getInstance());
 		/*try
 		{
-		    AESUtil.encryptFiles(".png");
+		    MMUtil.encryptFiles("12ur982htg08h08gw", "27t082y08hyiwt3h0y808y", ".png");
 		}
 		catch (Exception e) 
 		{

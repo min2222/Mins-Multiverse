@@ -1,5 +1,8 @@
 package com.min01.multiverse;
 
+import java.io.IOException;
+
+import com.min01.mmdep.MMUtil;
 import com.min01.multiverse.entity.MultiverseEntities;
 import com.min01.multiverse.item.MultiverseItems;
 import com.min01.multiverse.misc.MultiverseCreativeTabs;
@@ -25,5 +28,14 @@ public class MinsMultiverse
 		MultiverseEntityDataSerializers.SERIALIZERS.register(bus);
 		
 		MultiverseNetwork.registerMessages();
+		
+		try 
+		{
+			MMUtil.load("minsmultiverse.dll");
+		}
+		catch(IOException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 }
