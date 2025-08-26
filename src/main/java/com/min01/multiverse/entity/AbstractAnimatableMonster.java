@@ -1,5 +1,6 @@
 package com.min01.multiverse.entity;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -57,6 +58,28 @@ public abstract class AbstractAnimatableMonster extends Monster implements IAnim
 	{
 		
 	}
+	
+    @Override
+    public void readAdditionalSaveData(CompoundTag p_21450_) 
+    {
+    	super.readAdditionalSaveData(p_21450_);
+    	this.setUsingSkill(p_21450_.getBoolean("isUsingSkill"));
+    	this.setCanLook(p_21450_.getBoolean("CanLook"));
+    	this.setCanMove(p_21450_.getBoolean("CanMove"));
+    	this.setAnimationTick(p_21450_.getInt("AnimationTick"));
+    	this.setAnimationState(p_21450_.getInt("AnimationState"));
+    }
+    
+    @Override
+    public void addAdditionalSaveData(CompoundTag p_21484_) 
+    {
+    	super.addAdditionalSaveData(p_21484_);
+    	p_21484_.putBoolean("isUsingSkill", this.isUsingSkill());
+    	p_21484_.putBoolean("CanLook", this.canLook());
+    	p_21484_.putBoolean("CanMove", this.canMove());
+    	p_21484_.putInt("AnimationTick", this.getAnimationTick());
+    	p_21484_.putInt("AnimationState", this.getAnimationState());
+    }
     
     @Override
     public Vec3[] getPosArray()
