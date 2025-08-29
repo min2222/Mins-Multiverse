@@ -26,7 +26,7 @@ public class SmoothAnimationState extends AnimationState
 	    float lerpSpeed = 0.4F;
 	    this.factor += (target - this.factor) * lerpSpeed;
 	    this.factor = Mth.clamp(this.factor, 0.0F, 1.0F);
-	    this.animateWhen(this.factor <= 0.9F + 0.0001F, tickCount);
+	    this.animateWhen(this.factor <= 1.0F + 0.0001F, tickCount);
 	}
 	
 	public float factor(float partialTicks)
