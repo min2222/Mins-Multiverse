@@ -5,6 +5,7 @@ import com.min01.multiverse.util.MultiverseUtil;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -31,7 +32,6 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
 	public static final EntityDataAccessor<Integer> ANIMATION_TICK = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Boolean> CAN_LOOK = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> CAN_MOVE = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
-	public static final EntityDataAccessor<Boolean> IS_USING_SKILL = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> HAS_TARGET = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
 
 	public Vec3[] posArray;
@@ -65,7 +65,6 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
 		this.entityData.define(ANIMATION_TICK, 0);
 		this.entityData.define(CAN_LOOK, true);
 		this.entityData.define(CAN_MOVE, true);
-		this.entityData.define(IS_USING_SKILL, false);
 		this.entityData.define(HAS_TARGET, false);
 	}
 	
@@ -130,6 +129,26 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
 		this.yBodyRotO = this.yBodyRot;
 	}
 	
+    @Override
+    public void readAdditionalSaveData(CompoundTag p_21450_) 
+    {
+    	super.readAdditionalSaveData(p_21450_);
+    	this.setCanLook(p_21450_.getBoolean("CanLook"));
+    	this.setCanMove(p_21450_.getBoolean("CanMove"));
+    	this.setAnimationTick(p_21450_.getInt("AnimationTick"));
+    	this.setAnimationState(p_21450_.getInt("AnimationState"));
+    }
+    
+    @Override
+    public void addAdditionalSaveData(CompoundTag p_21484_) 
+    {
+    	super.addAdditionalSaveData(p_21484_);
+    	p_21484_.putBoolean("CanLook", this.canLook());
+    	p_21484_.putBoolean("CanMove", this.canMove());
+    	p_21484_.putInt("AnimationTick", this.getAnimationTick());
+    	p_21484_.putInt("AnimationState", this.getAnimationState());
+    }
+	
 	public int getBodyRotationSpeed()
 	{
 		return 10;
@@ -151,15 +170,9 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
 	}
 	
 	@Override
-	public void setUsingSkill(boolean value) 
-	{
-		this.entityData.set(IS_USING_SKILL, value);
-	}
-	
-	@Override
 	public boolean isUsingSkill() 
 	{
-		return this.getAnimationTick() > 0 || this.entityData.get(IS_USING_SKILL);
+		return this.getAnimationTick() > 0;
 	}
 	
     public void setCanLook(boolean value)
@@ -203,6 +216,10 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
     
     public int getAnimationState()
     {
+    	if(!this.isUsingSkill())
+    	{
+    		return 0;
+    	}
         return this.entityData.get(ANIMATION_STATE);
     }
 }
