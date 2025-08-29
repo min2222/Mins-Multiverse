@@ -4,7 +4,6 @@ import com.min01.multiverse.MinsMultiverse;
 import com.min01.multiverse.entity.animation.KingofSinAnimation;
 import com.min01.multiverse.entity.living.EntityKingofSin;
 import com.min01.multiverse.util.MultiverseClientUtil;
-import com.min01.multiverse.util.MultiverseUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -248,14 +247,7 @@ public class ModelKingofSin extends HierarchicalModel<EntityKingofSin>
 	{
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		MultiverseClientUtil.animateHead(this.head, netHeadYaw, headPitch);
-		
-		if(!MultiverseUtil.isMoving(entity))
-		{
-			limbSwing = 0.0F;
-			limbSwingAmount = 0.0F;
-		}
-		
-		this.animate(entity.idleAnimationState, KingofSinAnimation.KING_OF_SIN_IDLE, ageInTicks);
+		entity.idleAnimationState.animate(this, KingofSinAnimation.KING_OF_SIN_IDLE, ageInTicks, limbSwingAmount);
 		this.animate(entity.crossAnimationState, KingofSinAnimation.KING_OF_SIN_ARM_CROSSED, ageInTicks);
 		this.animateWalk(KingofSinAnimation.KING_OF_SIN_WALK_CROSSED, limbSwing, limbSwingAmount, 3.5F, 2.5F);
 	}

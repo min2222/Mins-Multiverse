@@ -91,11 +91,6 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
 		}
     }
     
-	public void stopAllAnimationStates()
-	{
-		
-	}
-	
 	public static boolean checkFishSpawnRules(EntityType<? extends AbstractAnimatableWaterAnimal> type, ServerLevelAccessor pServerLevel, MobSpawnType pMobSpawnType, BlockPos pPos, RandomSource pRandom) 
     {
 		return pServerLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pServerLevel.getBlockState(pPos.above()).is(Blocks.WATER);

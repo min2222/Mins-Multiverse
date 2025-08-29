@@ -94,11 +94,6 @@ public class MultiverseUtil
 		return motion.scale(scale);
 	}
 	
-	public static boolean isMoving(Entity entity) 
-	{
-		return entity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-6D;
-	}
-	
 	@SuppressWarnings("unchecked")
 	public static Entity getEntityByUUID(Level level, UUID uuid)
 	{

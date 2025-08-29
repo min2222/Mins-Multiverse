@@ -1,7 +1,6 @@
 package com.min01.multiverse.entity.living;
 
 import com.min01.multiverse.entity.AbstractAnimatableMonster;
-import com.min01.multiverse.entity.ai.goal.AbstractAnimationSkillGoal;
 import com.min01.multiverse.entity.ai.goal.RaktaScarletMagicGoal;
 
 import net.minecraft.sounds.SoundEvent;
@@ -26,7 +25,6 @@ public class EntityRakta extends AbstractAnimatableMonster
 		포탈에서 나온 손에 탑승
 		주변에 포탈을 여러개 생성하고, 거기서 손이 하나씩 나옴
 		그리고 손이 뭘 할지는 생각중*/
-	public Class<? extends AbstractAnimationSkillGoal<?>> goal;
 	
 	public EntityRakta(EntityType<? extends Monster> p_33002_, Level p_33003_) 
 	{

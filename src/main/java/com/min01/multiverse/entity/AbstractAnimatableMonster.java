@@ -1,5 +1,7 @@
 package com.min01.multiverse.entity;
 
+import com.min01.multiverse.entity.ai.goal.AbstractAnimationSkillGoal;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -18,6 +20,8 @@ public abstract class AbstractAnimatableMonster extends Monster implements IAnim
 	public static final EntityDataAccessor<Boolean> IS_USING_SKILL = SynchedEntityData.defineId(AbstractAnimatableMonster.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> HAS_TARGET = SynchedEntityData.defineId(AbstractAnimatableMonster.class, EntityDataSerializers.BOOLEAN);
 
+	public Class<? extends AbstractAnimationSkillGoal<?>> goal;
+	
 	public Vec3[] posArray;
 	
 	public AbstractAnimatableMonster(EntityType<? extends Monster> p_33002_, Level p_33003_) 
@@ -53,11 +57,6 @@ public abstract class AbstractAnimatableMonster extends Monster implements IAnim
 			this.setAnimationTick(this.getAnimationTick() - 1);
 		}
     }
-    
-	public void stopAllAnimationStates()
-	{
-		
-	}
 	
     @Override
     public void readAdditionalSaveData(CompoundTag p_21450_) 

@@ -5,11 +5,11 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.min01.multiverse.entity.AbstractAnimatableMonster;
-import com.min01.multiverse.entity.ai.goal.AbstractAnimationSkillGoal;
 import com.min01.multiverse.entity.ai.goal.KingofSinGateGoal;
 import com.min01.multiverse.entity.ai.goal.KingofSinSwordBarrageGoal;
 import com.min01.multiverse.entity.projectile.EntitySin;
 import com.min01.multiverse.entity.projectile.EntitySin.SinType;
+import com.min01.multiverse.misc.SmoothAnimationState;
 import com.min01.multiverse.util.MultiverseUtil;
 
 import net.minecraft.core.particles.ParticleTypes;
@@ -19,7 +19,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,10 +35,8 @@ import net.minecraft.world.phys.Vec3;
 
 public class EntityKingofSin extends AbstractAnimatableMonster
 {
-	public final AnimationState idleAnimationState = new AnimationState();
-	public final AnimationState crossAnimationState = new AnimationState();
-	
-	public Class<? extends AbstractAnimationSkillGoal<?>> goal;
+	public final SmoothAnimationState idleAnimationState = new SmoothAnimationState();
+	public final SmoothAnimationState crossAnimationState = new SmoothAnimationState();
 	
 	public EntityKingofSin(EntityType<? extends Monster> p_33002_, Level p_33003_) 
 	{
@@ -76,7 +73,7 @@ public class EntityKingofSin extends AbstractAnimatableMonster
     	if(this.level.isClientSide)
     	{
     		this.crossAnimationState.startIfStopped(this.tickCount);
-    		this.idleAnimationState.animateWhen(this.getAnimationState() == 0 && !MultiverseUtil.isMoving(this), this.tickCount);
+    		this.idleAnimationState.updateWhen(this.getAnimationState() == 0, this.tickCount);
     	}
     	if(this.getTarget() != null)
     	{

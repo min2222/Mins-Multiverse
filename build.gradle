@@ -160,7 +160,7 @@ dependencies {
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 	annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
-	implementation fg.deobf("curse.maven:tickrate-api-969702:6770576")
+	implementation fg.deobf("curse.maven:tickrate-api-969702:6830640")
 	implementation fg.deobf("com.min01.mmdep:mm-dep:1.0.0")
     jarJar(group: 'com.min01.mmdep', name: 'mm-dep', version: '[1.0.0]')
 
