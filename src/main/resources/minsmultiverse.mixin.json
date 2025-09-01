@@ -4,6 +4,7 @@
 	"package": "com.min01.multiverse.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"MixinResource"
 	],
 	"client": [
 	],
