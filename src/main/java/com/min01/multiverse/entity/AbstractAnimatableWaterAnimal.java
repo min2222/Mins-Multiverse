@@ -26,13 +26,14 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
-public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implements IAnimatable
+public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implements IAnimatable, IPosArray
 {
 	public static final EntityDataAccessor<Integer> ANIMATION_STATE = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Integer> ANIMATION_TICK = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Boolean> CAN_LOOK = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> CAN_MOVE = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> HAS_TARGET = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> IS_USING_SKILL = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
 
 	public Vec3[] posArray;
 	
@@ -42,6 +43,18 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
 		this.noCulling = true;
 		this.moveControl = new MultiverseSwimmingMoveControl(this, 85, 0.5F, 0.1F, false);
 		this.lookControl = new SmoothSwimmingLookControl(this, 10);
+	}
+	
+	@Override
+	protected void defineSynchedData()
+	{
+		super.defineSynchedData();
+		this.entityData.define(ANIMATION_STATE, 0);
+		this.entityData.define(ANIMATION_TICK, 0);
+		this.entityData.define(CAN_LOOK, true);
+		this.entityData.define(CAN_MOVE, true);
+		this.entityData.define(HAS_TARGET, false);
+		this.entityData.define(IS_USING_SKILL, false);
 	}
 	
 	@Override
@@ -56,23 +69,6 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
         	}
         });
 	}
-	
-	@Override
-	protected void defineSynchedData()
-	{
-		super.defineSynchedData();
-		this.entityData.define(ANIMATION_STATE, 0);
-		this.entityData.define(ANIMATION_TICK, 0);
-		this.entityData.define(CAN_LOOK, true);
-		this.entityData.define(CAN_MOVE, true);
-		this.entityData.define(HAS_TARGET, false);
-	}
-	
-    @Override
-    protected PathNavigation createNavigation(Level p_27480_) 
-    {
-    	return new WaterBoundPathNavigation(this, p_27480_);
-    }
     
     @Override
     public void tick()
@@ -88,16 +84,28 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
 		{
 			this.setAnimationTick(this.getAnimationTick() - 1);
 		}
+		
+		if(this.entityData.get(IS_USING_SKILL) && this.getAnimationTick() <= 0)
+		{
+			this.setAnimationState(0);
+			this.setUsingSkill(false);
+		}
+    }
+    
+    @Override
+    protected PathNavigation createNavigation(Level p_27480_) 
+    {
+    	return new WaterBoundPathNavigation(this, p_27480_);
     }
     
 	public static boolean checkFishSpawnRules(EntityType<? extends AbstractAnimatableWaterAnimal> type, ServerLevelAccessor pServerLevel, MobSpawnType pMobSpawnType, BlockPos pPos, RandomSource pRandom) 
     {
 		return pServerLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pServerLevel.getBlockState(pPos.above()).is(Blocks.WATER);
     }
-    
-    @Override
-    public void travel(Vec3 p_27490_) 
-    {
+	
+	@Override
+	public void travel(Vec3 p_27490_) 
+	{
     	if(this.isEffectiveAi() && this.isInWater())
     	{
     		this.moveRelative(this.getSpeed(), p_27490_);
@@ -108,7 +116,7 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
     	{
     		super.travel(p_27490_);
     	}
-    }
+	}
 	
 	@Override
 	public void lookAt(Anchor p_20033_, Vec3 p_20034_)
@@ -129,10 +137,21 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
 		this.yBodyRotO = this.yBodyRot;
 	}
 	
+	public int getBodyRotationSpeed()
+	{
+		return 10;
+	}
+	
+	public boolean canRandomSwim()
+	{
+		return (!this.isUsingSkill() || this.getTarget() == null) && this.getNavigation().isDone();
+	}
+	
     @Override
     public void readAdditionalSaveData(CompoundTag p_21450_) 
     {
     	super.readAdditionalSaveData(p_21450_);
+    	this.setUsingSkill(p_21450_.getBoolean("isUsingSkill"));
     	this.setCanLook(p_21450_.getBoolean("CanLook"));
     	this.setCanMove(p_21450_.getBoolean("CanMove"));
     	this.setAnimationTick(p_21450_.getInt("AnimationTick"));
@@ -143,21 +162,18 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
     public void addAdditionalSaveData(CompoundTag p_21484_) 
     {
     	super.addAdditionalSaveData(p_21484_);
+    	p_21484_.putBoolean("isUsingSkill", this.isUsingSkill());
     	p_21484_.putBoolean("CanLook", this.canLook());
     	p_21484_.putBoolean("CanMove", this.canMove());
     	p_21484_.putInt("AnimationTick", this.getAnimationTick());
     	p_21484_.putInt("AnimationState", this.getAnimationState());
     }
-	
-	public int getBodyRotationSpeed()
-	{
-		return 10;
-	}
-	
-	public boolean canRandomSwim()
-	{
-		return (!this.isUsingSkill() || this.getTarget() == null) && this.getNavigation().isDone();
-	}
+    
+    @Override
+    public Vec3[] getPosArray()
+    {
+    	return this.posArray;
+    }
 	
 	public void setHasTarget(boolean value)
 	{
@@ -170,9 +186,15 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
 	}
 	
 	@Override
+	public void setUsingSkill(boolean value) 
+	{
+		this.entityData.set(IS_USING_SKILL, value);
+	}
+	
+	@Override
 	public boolean isUsingSkill() 
 	{
-		return this.getAnimationTick() > 0;
+		return this.getAnimationTick() > 0 || this.entityData.get(IS_USING_SKILL);
 	}
 	
     public void setCanLook(boolean value)
@@ -216,10 +238,11 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
     
     public int getAnimationState()
     {
-    	if(!this.isUsingSkill())
-    	{
-    		return 0;
-    	}
         return this.entityData.get(ANIMATION_STATE);
+    }
+    
+    public boolean isUsingSkill(int state)
+    {
+    	return this.getAnimationState() == state && this.isUsingSkill();
     }
 }

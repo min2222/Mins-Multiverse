@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.min01.multiverse.entity.AbstractAnimatableMonster;
+import com.min01.multiverse.entity.ai.goal.AbstractAnimationSkillGoal;
 import com.min01.multiverse.entity.ai.goal.KingofSinGateGoal;
 import com.min01.multiverse.entity.ai.goal.KingofSinSwordBarrageGoal;
 import com.min01.multiverse.entity.projectile.EntitySin;
@@ -24,8 +25,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -37,6 +36,8 @@ public class EntityKingofSin extends AbstractAnimatableMonster
 {
 	public final SmoothAnimationState idleAnimationState = new SmoothAnimationState();
 	public final SmoothAnimationState crossAnimationState = new SmoothAnimationState();
+
+	public Class<? extends AbstractAnimationSkillGoal<?>> goal;
 	
 	public EntityKingofSin(EntityType<? extends Monster> p_33002_, Level p_33003_) 
 	{
@@ -47,7 +48,7 @@ public class EntityKingofSin extends AbstractAnimatableMonster
     {
         return Monster.createMonsterAttributes()
         		.add(Attributes.MAX_HEALTH, 350.0F)
-        		.add(Attributes.MOVEMENT_SPEED, 0.35F)
+        		.add(Attributes.MOVEMENT_SPEED, 0.25F)
         		.add(Attributes.ATTACK_DAMAGE, 35.0F)
         		.add(Attributes.FOLLOW_RANGE, 100.0F)
         		.add(Attributes.KNOCKBACK_RESISTANCE, 100.0F)
@@ -58,10 +59,9 @@ public class EntityKingofSin extends AbstractAnimatableMonster
     @Override
     protected void registerGoals()
     {
-		this.goalSelector.addGoal(0, new FloatGoal(this));
+    	super.registerGoals();
 		this.goalSelector.addGoal(0, new KingofSinGateGoal(this));
 		this.goalSelector.addGoal(0, new KingofSinSwordBarrageGoal(this));
-		this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 0.5D));
     	this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
     }
     

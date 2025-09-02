@@ -1,6 +1,7 @@
 package com.min01.multiverse.entity.living;
 
 import com.min01.multiverse.entity.AbstractAnimatableMonster;
+import com.min01.multiverse.entity.ai.goal.AbstractAnimationSkillGoal;
 import com.min01.multiverse.entity.ai.goal.RaktaScarletMagicGoal;
 
 import net.minecraft.sounds.SoundEvent;
@@ -12,8 +13,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
@@ -25,6 +24,8 @@ public class EntityRakta extends AbstractAnimatableMonster
 		포탈에서 나온 손에 탑승
 		주변에 포탈을 여러개 생성하고, 거기서 손이 하나씩 나옴
 		그리고 손이 뭘 할지는 생각중*/
+
+	public Class<? extends AbstractAnimationSkillGoal<?>> goal;
 	
 	public EntityRakta(EntityType<? extends Monster> p_33002_, Level p_33003_) 
 	{
@@ -35,7 +36,7 @@ public class EntityRakta extends AbstractAnimatableMonster
     {
         return Monster.createMonsterAttributes()
         		.add(Attributes.MAX_HEALTH, 500.0F)
-        		.add(Attributes.MOVEMENT_SPEED, 0.25F)
+        		.add(Attributes.MOVEMENT_SPEED, 0.35F)
         		.add(Attributes.ATTACK_DAMAGE, 65.0F)
         		.add(Attributes.FOLLOW_RANGE, 100.0F)
         		.add(Attributes.KNOCKBACK_RESISTANCE, 100.0F)
@@ -46,9 +47,8 @@ public class EntityRakta extends AbstractAnimatableMonster
     @Override
     protected void registerGoals()
     {
-		this.goalSelector.addGoal(0, new FloatGoal(this));
+    	super.registerGoals();
 		this.goalSelector.addGoal(0, new RaktaScarletMagicGoal(this));
-		this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 0.5D));
     	this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
     }
     

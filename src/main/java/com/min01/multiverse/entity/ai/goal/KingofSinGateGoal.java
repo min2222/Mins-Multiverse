@@ -22,9 +22,9 @@ public class KingofSinGateGoal extends AbstractKingofSinGoal
 	}
 	
 	@Override
-	public boolean additionalStartCondition() 
+	public boolean canUse() 
 	{
-		return this.mob.distanceTo(this.mob.getTarget()) >= 15.0F;
+		return super.canUse() && this.mob.distanceTo(this.mob.getTarget()) >= 15.0F;
 	}
 	
 	@Override
