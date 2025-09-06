@@ -23,13 +23,13 @@ public class MultiverseSwimmingMoveControl extends MoveControl
 	private final boolean applyGravity;
 	private Vec3 targetPos = Vec3.ZERO;
 
-	public MultiverseSwimmingMoveControl(Mob p_148070_, int p_148071_, float p_148073_, float p_148074_, boolean p_148075_)
+	public MultiverseSwimmingMoveControl(Mob mob, int maxTurnX, float inWaterSpeedModifier, float outsideWaterSpeedModifier, boolean applyGravity)
 	{
-		super(p_148070_);
-		this.maxTurnX = p_148071_;
-		this.inWaterSpeedModifier = p_148073_;
-		this.outsideWaterSpeedModifier = p_148074_;
-		this.applyGravity = p_148075_;
+		super(mob);
+		this.maxTurnX = maxTurnX;
+		this.inWaterSpeedModifier = inWaterSpeedModifier;
+		this.outsideWaterSpeedModifier = outsideWaterSpeedModifier;
+		this.applyGravity = applyGravity;
 	}
 
 	@Override
