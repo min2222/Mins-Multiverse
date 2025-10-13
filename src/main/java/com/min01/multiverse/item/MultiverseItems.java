@@ -28,7 +28,8 @@ public class MultiverseItems
 	public static final RegistryObject<Item> SUPERBIA = ITEMS.register("superbia", () -> new SevenSinsSwordItem());
 	
 	public static final RegistryObject<Item> CREEPEEL_SPAWN_EGG = registerSpawnEgg("creepeel_spawn_egg", () -> MultiverseEntities.CREEPEEL.get(), 894731, 0);
-	public static final RegistryObject<Item> KING_OF_SIN_SPAWN_EGG = registerSpawnEgg("king_of_sin_spawn_egg", () -> MultiverseEntities.KING_OF_SIN.get(), 0, 0);
+	public static final RegistryObject<Item> OROCHI_SPAWN_EGG = registerSpawnEgg("orochi_spawn_egg", () -> MultiverseEntities.OROCHI.get(), 16777215, 13042435);
+	//public static final RegistryObject<Item> KING_OF_SIN_SPAWN_EGG = registerSpawnEgg("king_of_sin_spawn_egg", () -> MultiverseEntities.KING_OF_SIN.get(), 0, 0);
 	//public static final RegistryObject<Item> RAKTA_SPAWN_EGG = registerSpawnEgg("rakta_spawn_egg", () -> MultiverseEntities.RAKTA.get(), 0, 0);
 	
 	public static RegistryObject<Item> registerBlockItem(String name, Supplier<Block> block, Item.Properties properties)

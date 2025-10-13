@@ -10,10 +10,13 @@ import org.joml.Math;
 import com.min01.multiverse.entity.AbstractAnimatableMonster;
 
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.phys.AABB;
@@ -26,6 +29,21 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 public class MultiverseUtil 
 {
 	public static final Method GET_ENTITY = ObfuscationReflectionHelper.findMethod(Level.class, "m_142646_");
+	
+	@SuppressWarnings("deprecation")
+	public static Vec3 getGroundPos(BlockGetter pLevel, double pX, double startY, double pZ, int belowY)
+    {
+        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos(pX, startY, pZ);
+        do
+        {
+        	mutablePos.move(Direction.DOWN);
+        } 
+        while((pLevel.getBlockState(mutablePos).isAir() || pLevel.getBlockState(mutablePos).liquid() || !pLevel.getBlockState(mutablePos).isCollisionShapeFullBlock(pLevel, mutablePos)) && mutablePos.getY() > pLevel.getMinBuildHeight());
+
+        BlockPos blockPos = mutablePos.below(belowY);
+
+        return Vec3.atBottomCenterOf(blockPos);
+    }
 	
 	public static Pair<Boolean, Vec3> getDodge(Entity arrow, Mob mob)
 	{
@@ -95,12 +113,12 @@ public class MultiverseUtil
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static Entity getEntityByUUID(Level level, UUID uuid)
+	public static <T extends Entity> T getEntityByUUID(Level level, UUID uuid)
 	{
 		try 
 		{
 			LevelEntityGetter<Entity> entities = (LevelEntityGetter<Entity>) GET_ENTITY.invoke(level);
-			return entities.get(uuid);
+			return (T) entities.get(uuid);
 		}
 		catch (Exception e) 
 		{
@@ -128,6 +146,22 @@ public class MultiverseUtil
         double x = entity.getX() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * range + 0.5D;
         double y = entity.getY() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * range + 0.5D;
         double z = entity.getZ() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * range + 0.5D;
+        return new Vec3(x, y, z);
+	}
+	
+	public static Vec3 getSpreadPosition(Level level, Vec3 startPos, Vec3 range)
+	{
+        double x = startPos.x + (level.random.nextDouble() - level.random.nextDouble()) * range.x + 0.5D;
+        double y = startPos.y + (level.random.nextDouble() - level.random.nextDouble()) * range.y + 0.5D;
+        double z = startPos.z + (level.random.nextDouble() - level.random.nextDouble()) * range.z + 0.5D;
+        return new Vec3(x, y, z);
+	}
+	
+	public static Vec3 getSpreadPosition(Level level, Vec3 startPos, double range)
+	{
+        double x = startPos.x + (level.random.nextDouble() - level.random.nextDouble()) * range + 0.5D;
+        double y = startPos.y + (level.random.nextDouble() - level.random.nextDouble()) * range + 0.5D;
+        double z = startPos.z + (level.random.nextDouble() - level.random.nextDouble()) * range + 0.5D;
         return new Vec3(x, y, z);
 	}
 	

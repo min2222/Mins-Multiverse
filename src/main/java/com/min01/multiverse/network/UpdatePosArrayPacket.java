@@ -53,6 +53,17 @@ public class UpdatePosArrayPacket
 						mob.getPosArray()[message.array] = message.pos;
 					}
 				}
+				else
+				{
+					MultiverseUtil.getClientLevel(level -> 
+					{
+						Entity entity = MultiverseUtil.getEntityByUUID(level, message.entityUUID);
+						if(entity instanceof IPosArray mob) 
+						{
+							mob.getPosArray()[message.array] = message.pos;
+						}
+					});
+				}
 			});
 			ctx.get().setPacketHandled(true);
 			return true;
