@@ -6,11 +6,12 @@ import java.util.List;
 import com.min01.multiverse.entity.AbstractAnimatableMonster;
 import com.min01.multiverse.misc.KinematicChain;
 import com.min01.multiverse.misc.KinematicChain.ChainSegment;
-import com.min01.multiverse.network.MultiverseNetwork;
-import com.min01.multiverse.network.UpdatePosArrayPacket;
 import com.min01.multiverse.misc.SmoothAnimationState;
 import com.min01.multiverse.util.MultiverseUtil;
 
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,16 +21,18 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
 public class EntityOrochi extends AbstractAnimatableMonster
 {
+	public static final EntityDataAccessor<Boolean> IS_RIDING = SynchedEntityData.defineId(EntityOrochi.class, EntityDataSerializers.BOOLEAN);
+	
 	public final List<OrochiChain> chains = new ArrayList<>();
 	
 	public EntityOrochi(EntityType<? extends Monster> p_33002_, Level p_33003_) 
 	{
 		super(p_33002_, p_33003_);
-		this.posArray = new Vec3[100];
 	}
 	
     public static AttributeSupplier.Builder createAttributes()
@@ -47,6 +50,7 @@ public class EntityOrochi extends AbstractAnimatableMonster
     protected void defineSynchedData() 
     {
     	super.defineSynchedData();
+    	this.entityData.define(IS_RIDING, false);
     }
     
     @Override
@@ -65,35 +69,58 @@ public class EntityOrochi extends AbstractAnimatableMonster
 		{
 			chain.tick();
 		}
+		//this.chains.removeIf(t -> t.tickCount >= 100);
 		
-		if(this.hasTarget())
+		if(this.hasTarget() && this.chains.isEmpty())
 		{
-			if(this.tickCount % 20 == 0 && this.posArray[0] != null)
-			{
-				this.addChain(this.position(), this.posArray[0].add(0, 30, 0));
-			}
+			Vec2 rotation = new Vec2(0, this.yBodyRot);
+			Vec3 lookPos = MultiverseUtil.getLookPos(rotation, this.getEyePosition(), 0, 0, -30);
+			Vec3 targetPos = MultiverseUtil.getLookPos(rotation, this.getEyePosition(), 0, 0, 10);
+			this.addChain(lookPos, targetPos, false);
 		}
-    	
-		if(this.getTarget() != null)
+		
+		if(!this.chains.isEmpty())
 		{
-			if(this.canMove())
+			OrochiChain chain = this.chains.get(0);
+			ChainSegment tip = chain.getSegments()[chain.getSegments().length - 3];
+			Vec3 tipPos = tip.getPos();
+			if(this.isRiding())
 			{
-				//this.getNavigation().moveTo(this.getTarget(), 0.5F);
+				Vec2 tipRot = tip.getRot();
+				Vec3 lookPos = MultiverseUtil.getLookPos(tipRot, tipPos, 0, 0.5F, 0);
+				this.setPos(lookPos);
+				this.setNoGravity(true);
+				this.setXRot(tipRot.x);
+				this.setYRot(tipRot.y);
+				this.setYBodyRot(tipRot.y);
+				this.setYHeadRot(tipRot.y);
 			}
-			if(this.canLook() && this.getTarget().isAlive())
+			if(this.position().distanceTo(tipPos) <= 3.5F)
 			{
-        		this.getLookControl().setLookAt(this.getTarget(), 30.0F, 30.0F);
-            	this.lookAt(this.getTarget(), 30.0F, 30.0F);
+				this.setRiding(true);
 			}
-			Vec3 targetPos = this.getTarget().position();
-			this.posArray[0] = targetPos;
-			MultiverseNetwork.sendToAll(new UpdatePosArrayPacket(this, targetPos, 0));
 		}
     }
-    
-	public void addChain(Vec3 pos, Vec3 target)
+	
+	@Override
+	public boolean removeWhenFarAway(double p_21542_)
 	{
-		Vec3 groundPos = MultiverseUtil.getGroundPos(this.level, pos.x, pos.y, pos.z, 2);	
+		return false;
+	}
+	
+	public void setRiding(boolean value)
+	{
+		this.entityData.set(IS_RIDING, value);
+	}
+	
+	public boolean isRiding()
+	{
+		return this.entityData.get(IS_RIDING);
+	}
+    
+	public void addChain(Vec3 pos, Vec3 target, boolean onGround)
+	{
+		Vec3 groundPos = onGround ? MultiverseUtil.getGroundPos(this.level, pos.x, pos.y, pos.z, 2) : pos;	
 		OrochiChain chain = new OrochiChain(this, 100, 0.85F);
 		for(ChainSegment segment : chain.getSegments())
 		{
@@ -123,27 +150,26 @@ public class EntityOrochi extends AbstractAnimatableMonster
 			this.tickCount++;
 			
 			EntityOrochi orochi = (EntityOrochi) this.entity;
-			
 			ChainSegment tip = this.getTipSegment();
 			
-			if(orochi.level.isClientSide && this.target != null)
+			if(this.target != null)
 			{
-				this.jawOpenAnimationState.updateWhen(this.target.subtract(tip.getPos()).length() <= 4.5F, this.tickCount);
+				if(this.target.subtract(tip.getPos()).length() <= 2.0F)
+				{
+					Vec3 spreadPos = MultiverseUtil.getSpreadPosition(orochi.level, this.target, 10);
+					this.setTarget(spreadPos);
+				}
+				if(orochi.level.isClientSide)
+				{
+					this.jawOpenAnimationState.updateWhen(this.target.subtract(tip.getPos()).length() <= 8.0F, this.tickCount);
+				}
 			}
 			
-			for(int i = 1; i < this.getSegments().length - 1; i++)
+			for(ChainSegment segment : this.segments)
 			{
-				ChainSegment prev = this.getSegments()[i - 1];
-				ChainSegment segment = this.getSegments()[i];
-		        Vec3 toTarget = prev.getPos().subtract(segment.getPos());
-		        double dist = toTarget.length();
-		        double moveDist = Math.min(dist, 0.5F);
-		        if(moveDist <= 0.1F)
-		        {
-		        	continue;
-		        }
+				Vec3 pos = segment.getPos();
 	    		Vec3 size = new Vec3(0.5F, 0.5F, 0.5F);
-	    		AABB aabb = new AABB(size.reverse(), size).move(segment.getPos());
+	    		AABB aabb = new AABB(size.reverse(), size).move(pos);
 	    		List<LivingEntity> list = orochi.level.getEntitiesOfClass(LivingEntity.class, aabb, target -> target != orochi && !target.isAlliedTo(orochi));
 	    		list.forEach(target ->
 	    		{

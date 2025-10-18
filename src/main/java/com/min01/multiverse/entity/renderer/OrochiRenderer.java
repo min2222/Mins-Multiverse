@@ -40,6 +40,7 @@ public class OrochiRenderer extends MobRenderer<EntityOrochi, ModelOrochi>
 	@Override
 	public void render(EntityOrochi p_115455_, float p_115456_, float p_115457_, PoseStack p_115458_, MultiBufferSource p_115459_, int p_115460_) 
 	{
+		super.render(p_115455_, p_115456_, p_115457_, p_115458_, p_115459_, p_115460_);
 	    if(!p_115455_.chains.isEmpty())
 	    {
 	    	for(OrochiChain chain : p_115455_.chains)
@@ -50,17 +51,9 @@ public class OrochiRenderer extends MobRenderer<EntityOrochi, ModelOrochi>
 			        double x = Mth.lerp((double)p_115457_, p_115455_.xOld, p_115455_.getX());
 			        double y = Mth.lerp((double)p_115457_, p_115455_.yOld, p_115455_.getY());
 			        double z = Mth.lerp((double)p_115457_, p_115455_.zOld, p_115455_.getZ());
-					ChainSegment prev = chain.getSegments()[i - 1];
 					ChainSegment segment = chain.getSegments()[i];
 					Vec3 pos = segment.position(p_115457_);
 					Vec2 rot = segment.getRot(p_115457_);
-			        Vec3 toTarget = prev.position(p_115457_).subtract(pos);
-			        double dist = toTarget.length();
-			        double moveDist = Math.min(dist, 0.5F);
-			        if(moveDist <= 0.1F)
-			        {
-			        	continue;
-			        }
 					p_115458_.pushPose();
 					p_115458_.translate(-(x - camPos.x), -(y - camPos.y), -(z - camPos.z));
 					p_115458_.translate(pos.x - camPos.x, pos.y - camPos.y, pos.z - camPos.z);
