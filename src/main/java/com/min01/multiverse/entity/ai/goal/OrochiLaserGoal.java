@@ -77,7 +77,7 @@ public class OrochiLaserGoal extends BasicAnimationSkillGoal<EntityOrochi>
 	{
 		if(this.mob.isSnake())
 		{
-			return 100;
+			return 50;
 		}
 		return 1;
 	}
