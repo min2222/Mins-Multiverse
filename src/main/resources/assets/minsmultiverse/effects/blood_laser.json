@@ -1,0 +1,540 @@
+{
+	"EffekseerProject": {
+		"Root": {
+			"Name": "Root",
+			"Children": {
+				"Node": [
+					{
+						"CommonValues": {
+							"MaxGeneration": {
+								"Value": "40",
+								"Infinite": "True"
+							},
+							"Life": {
+								"Center": "20",
+								"Max": "20",
+								"Min": "20"
+							},
+							"GenerationTimeOffset": {
+								"Center": "100",
+								"Max": "100",
+								"Min": "100"
+							}
+						},
+						"RotationValues": {
+							"Type": "1",
+							"Fixed": {
+								"Rotation": {
+									"X": "90"
+								}
+							},
+							"PVA": {
+								"Rotation": {
+									"X": {
+										"Center": "90",
+										"Max": "90",
+										"Min": "90"
+									}
+								}
+							}
+						},
+						"ScalingValues": {
+							"Type": "2",
+							"PVA": {
+								"Velocity": {
+									"X": {
+										"Center": "1",
+										"Max": "1",
+										"Min": "1"
+									},
+									"Y": {
+										"Center": "4",
+										"Max": "4",
+										"Min": "4"
+									},
+									"Z": {
+										"Center": "1",
+										"Max": "1",
+										"Min": "1"
+									}
+								}
+							},
+							"Easing": {
+								"Start": {
+									"X": {
+										"Center": "2",
+										"Max": "2",
+										"Min": "2"
+									},
+									"Z": {
+										"Center": "2",
+										"Max": "2",
+										"Min": "2"
+									}
+								},
+								"End": {
+									"X": {
+										"Center": "0",
+										"Max": "0",
+										"Min": "0"
+									},
+									"Y": {
+										"Center": "160",
+										"Max": "160",
+										"Min": "160"
+									},
+									"Z": {
+										"Center": "0",
+										"Max": "0",
+										"Min": "0"
+									}
+								}
+							}
+						},
+						"RendererCommonValues": {
+							"ColorTexture": "Texture/LaserMain01.png",
+							"AlphaBlend": "2"
+						},
+						"DrawingValues": {
+							"ColorAll": {
+								"Type": "2",
+								"Easing": {
+									"Start": {
+										"R": {
+											"Center": "126",
+											"Max": "126",
+											"Min": "126",
+											"DrawnAs": "0"
+										},
+										"G": {
+											"Center": "23",
+											"Max": "23",
+											"Min": "23",
+											"DrawnAs": "0"
+										},
+										"B": {
+											"Center": "23",
+											"Max": "23",
+											"Min": "23",
+											"DrawnAs": "0"
+										},
+										"A": {
+											"DrawnAs": "0"
+										}
+									},
+									"End": {
+										"R": {
+											"DrawnAs": "0"
+										},
+										"G": {
+											"Center": "0",
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										},
+										"B": {
+											"Center": "0",
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										},
+										"A": {
+											"Center": "0",
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										}
+									},
+									"StartSpeed": "-30",
+									"EndSpeed": "30"
+								}
+							},
+							"Sprite": {
+								"Billboard": "1",
+								"Color": "1",
+								"Color_Fixed_UL": {
+									"A": "0"
+								},
+								"Color_Fixed_UR": {
+									"A": "0"
+								},
+								"Position": "1",
+								"Position_Fixed_LL": {
+									"Y": "0"
+								},
+								"Position_Fixed_LR": {
+									"Y": "0"
+								}
+							}
+						},
+						"Name": "Laser",
+						"Children": ""
+					},
+					{
+						"Name": "LaserParticle",
+						"CommonValues": {
+							"MaxGeneration": {
+								"Value": "300",
+								"Infinite": "True"
+							},
+							"LocationEffectType": "1",
+							"RotationEffectType": "1",
+							"ScaleEffectType": "1",
+							"Life": {
+								"Center": "10",
+								"Max": "10",
+								"Min": "10"
+							},
+							"GenerationTime": {
+								"Center": "0.2",
+								"Max": "0.2",
+								"Min": "0.2"
+							},
+							"GenerationTimeOffset": {
+								"Center": "100",
+								"Max": "100",
+								"Min": "100"
+							}
+						},
+						"LocationValues": {
+							"Type": "1",
+							"PVA": {
+								"Location": {
+									"X": {
+										"Max": "0.5",
+										"Min": "-0.5"
+									},
+									"Y": {
+										"Max": "0.5",
+										"Min": "-0.5"
+									}
+								},
+								"Velocity": {
+									"X": {
+										"Max": "0.1",
+										"Min": "-0.1"
+									},
+									"Y": {
+										"Max": "0.1",
+										"Min": "-0.1"
+									},
+									"Z": {
+										"Center": "0.5",
+										"Max": "0.6",
+										"Min": "0.4"
+									}
+								}
+							}
+						},
+						"ScalingValues": {
+							"Fixed": {
+								"Scale": {
+									"X": "0.5",
+									"Y": "0.5"
+								}
+							}
+						},
+						"RendererCommonValues": {
+							"ColorTexture": "Texture/Particle01.png",
+							"AlphaBlend": "2"
+						},
+						"DrawingValues": {
+							"ColorAll": {
+								"Type": "2",
+								"Easing": {
+									"Start": {
+										"R": {
+											"DrawnAs": "0"
+										},
+										"G": {
+											"DrawnAs": "0"
+										},
+										"B": {
+											"DrawnAs": "0"
+										},
+										"A": {
+											"Center": "127",
+											"Min": "0",
+											"DrawnAs": "0"
+										}
+									},
+									"End": {
+										"R": {
+											"DrawnAs": "0"
+										},
+										"G": {
+											"Center": "0",
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										},
+										"B": {
+											"Center": "0",
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										},
+										"A": {
+											"Center": "0",
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										}
+									},
+									"StartSpeed": "-30",
+									"EndSpeed": "30"
+								}
+							},
+							"Sprite": {
+								"Color": "1",
+								"Position": "1"
+							}
+						},
+						"Children": ""
+					},
+					{
+						"Name": "LaserCore2",
+						"CommonValues": {
+							"MaxGeneration": {
+								"Value": "2"
+							},
+							"Life": {
+								"Center": "300",
+								"Max": "300",
+								"Min": "300"
+							}
+						},
+						"ScalingValues": {
+							"Fixed": {
+								"Scale": {
+									"X": "3",
+									"Y": "3",
+									"Z": "3"
+								}
+							}
+						},
+						"RendererCommonValues": {
+							"ColorTexture": "Texture/Particle02.png",
+							"AlphaBlend": "2"
+						},
+						"DrawingValues": {
+							"ColorAll": {
+								"Type": "2",
+								"Easing": {
+									"Start": {
+										"R": {
+											"DrawnAs": "0"
+										},
+										"G": {
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										},
+										"B": {
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										},
+										"A": {
+											"Center": "127",
+											"Min": "0",
+											"DrawnAs": "0"
+										}
+									},
+									"End": {
+										"R": {
+											"DrawnAs": "0"
+										},
+										"G": {
+											"Center": "0",
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										},
+										"B": {
+											"Center": "0",
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										},
+										"A": {
+											"Center": "0",
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										}
+									},
+									"StartSpeed": "-30",
+									"EndSpeed": "30"
+								}
+							},
+							"Sprite": {
+								"Color": "1",
+								"Position": "1"
+							}
+						},
+						"Children": ""
+					},
+					{
+						"Name": "Particle",
+						"CommonValues": {
+							"MaxGeneration": {
+								"Value": "60",
+								"Infinite": "True"
+							},
+							"LocationEffectType": "1",
+							"RotationEffectType": "1",
+							"ScaleEffectType": "1",
+							"Life": {
+								"Center": "20",
+								"Max": "20",
+								"Min": "20"
+							},
+							"GenerationTime": {
+								"Center": "0.5",
+								"Max": "0.5",
+								"Min": "0.5"
+							},
+							"GenerationTimeOffset": {
+								"Center": "10",
+								"Max": "10",
+								"Min": "10"
+							}
+						},
+						"LocationValues": {
+							"Type": "1",
+							"PVA": {
+								"Velocity": {
+									"X": {
+										"Max": "0.5",
+										"Min": "-0.5"
+									},
+									"Y": {
+										"Max": "0.5",
+										"Min": "-0.5"
+									},
+									"Z": {
+										"Max": "0.5",
+										"Min": "-0.5"
+									}
+								}
+							}
+						},
+						"ScalingValues": {
+							"Fixed": {
+								"Scale": {
+									"X": "0.5",
+									"Y": "0.5",
+									"Z": "0.5"
+								}
+							}
+						},
+						"GenerationLocationValues": {
+							"Type": "1",
+							"Sphere": {
+								"Radius": {
+									"Center": "1",
+									"Max": "1",
+									"Min": "1"
+								},
+								"RotationX": {
+									"Max": "360",
+									"Min": "-360"
+								},
+								"RotationY": {
+									"Max": "360",
+									"Min": "-360"
+								}
+							}
+						},
+						"RendererCommonValues": {
+							"ColorTexture": "Texture/Particle02.png",
+							"AlphaBlend": "2"
+						},
+						"DrawingValues": {
+							"ColorAll": {
+								"Type": "2",
+								"Easing": {
+									"Start": {
+										"R": {
+											"DrawnAs": "0"
+										},
+										"G": {
+											"DrawnAs": "0"
+										},
+										"B": {
+											"DrawnAs": "0"
+										},
+										"A": {
+											"DrawnAs": "0"
+										}
+									},
+									"End": {
+										"R": {
+											"DrawnAs": "0"
+										},
+										"G": {
+											"Center": "0",
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										},
+										"B": {
+											"Center": "0",
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										},
+										"A": {
+											"Center": "0",
+											"Max": "0",
+											"Min": "0",
+											"DrawnAs": "0"
+										}
+									}
+								}
+							},
+							"Sprite": {
+								"Color": "1",
+								"Position": "1"
+							}
+						},
+						"Children": ""
+					}
+				]
+			}
+		},
+		"Behavior": {
+			"TargetLocation": {
+				"Y": "15"
+			}
+		},
+		"Dynamic": {
+			"Inputs": {
+				"DynamicInput": [
+					{
+						"Input": "0"
+					},
+					{
+						"Input": "0"
+					},
+					{
+						"Input": "0"
+					},
+					{
+						"Input": "0"
+					}
+				]
+			},
+			"Equations": ""
+		},
+		"ProceduralModel": {
+			"ProceduralModels": ""
+		},
+		"ToolVersion": "1.70e",
+		"Version": "3",
+		"StartFrame": "0",
+		"EndFrame": "300",
+		"IsLoop": "True"
+	}
+}

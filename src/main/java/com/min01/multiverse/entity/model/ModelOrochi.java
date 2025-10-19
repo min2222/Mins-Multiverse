@@ -137,7 +137,7 @@ public class ModelOrochi extends HierarchicalModel<EntityOrochi>
 	public void setupAnim(EntityOrochi entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-		MultiverseClientUtil.animateHead(!entity.isRiding() ? this.head2 : this.root(), netHeadYaw, headPitch);
+		MultiverseClientUtil.animateHead(this.head2, netHeadYaw, headPitch);
 		
 		this.Rarm.xRot += Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 2.0F * limbSwingAmount * 0.5F;
 		this.Larm.xRot += Mth.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F;

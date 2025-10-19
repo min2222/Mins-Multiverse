@@ -1,6 +1,7 @@
 package com.min01.multiverse.util;
 
 import java.lang.reflect.Method;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -123,6 +124,16 @@ public class MultiverseUtil
 		catch (Exception e) 
 		{
 			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static Level getClientLevel()
+	{
+		Optional<Level> optional = LogicalSidedProvider.CLIENTWORLD.get(LogicalSide.CLIENT).filter(ClientLevel.class::isInstance);
+		if(optional.isPresent())
+		{
+			return optional.get();
 		}
 		return null;
 	}

@@ -61,6 +61,7 @@ public class EfkEfcLoader implements ResourceManagerReloadListener
 		add(manager, "sin_gate");
 		add(manager, "scarlet_gate");
 		add(manager, "sin_spear");
+		add(manager, "blood_laser");
 	}
 	
 	public static void add(ResourceManager manager, String name)
