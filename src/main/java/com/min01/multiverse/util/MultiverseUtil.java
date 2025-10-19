@@ -46,6 +46,19 @@ public class MultiverseUtil
         return Vec3.atBottomCenterOf(blockPos);
     }
 	
+    public static float distanceToY(Entity entity, Entity target)
+    {
+        float f = (float)(entity.getY() - target.getY());
+        return Mth.sqrt(f * f);
+    }
+	
+    public static float distanceToXZ(Entity entity, Entity target)
+    {
+        float f = (float)(entity.getX() - target.getX());
+        float f2 = (float)(entity.getZ() - target.getZ());
+        return Mth.sqrt(f * f + f2 * f2);
+    }
+	
 	public static Pair<Boolean, Vec3> getDodge(Entity arrow, Mob mob)
 	{
         float width = arrow.getBbWidth() + 1.5F;

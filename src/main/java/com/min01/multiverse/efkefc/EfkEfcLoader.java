@@ -55,15 +55,6 @@ public class EfkEfcLoader implements ResourceManagerReloadListener
 	        return new EfkEfcRenderer(data.nodes, data.globalProperties, entity.tickCount, partialTicks);
 	    });
 	}
-	
-	public static void remove(Entity entity)
-	{
-	    UUID uuid = entity.getUUID();
-	    if(ENTITY_RENDERERS.containsKey(uuid))
-	    {
-	        ENTITY_RENDERERS.remove(uuid);
-	    }
-	}
 
 	public static void init(ResourceManager manager) throws IOException
 	{
