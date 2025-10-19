@@ -22,6 +22,7 @@ public class MultiverseNetwork
 	public static void registerMessages()
 	{
 		CHANNEL.registerMessage(ID++, UpdatePosArrayPacket.class, UpdatePosArrayPacket::encode, UpdatePosArrayPacket::new, UpdatePosArrayPacket.Handler::onMessage);
+		CHANNEL.registerMessage(ID++, OrochiChainSyncPacket.class, OrochiChainSyncPacket::encode, OrochiChainSyncPacket::new, OrochiChainSyncPacket.Handler::onMessage);
 	}
 	
     public static <MSG> void sendToServer(MSG message) 

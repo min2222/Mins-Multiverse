@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import com.min01.multiverse.entity.AbstractAnimatableMonster;
+import com.min01.multiverse.entity.ai.goal.OrochiLaserGoal;
 import com.min01.multiverse.entity.living.EntityOrochi.OrochiChain.ChainType;
 import com.min01.multiverse.misc.KinematicChain;
 import com.min01.multiverse.misc.KinematicChain.ChainSegment;
@@ -35,7 +36,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
 public class EntityOrochi extends AbstractAnimatableMonster
@@ -75,6 +75,7 @@ public class EntityOrochi extends AbstractAnimatableMonster
     protected void registerGoals()
     {
     	super.registerGoals();
+    	this.goalSelector.addGoal(0, new OrochiLaserGoal(this));
     	this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
     	this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, false));
     }
@@ -99,15 +100,6 @@ public class EntityOrochi extends AbstractAnimatableMonster
 		
 		if(this.getTarget() != null && this.getTarget().isAlive())
 		{
-			if(this.tickCount % 100 == 0 && this.getPhase() == 1)
-			{
-				for(int i = 0; i < 360; i += 45)
-				{
-					Vec2 rot = new Vec2(0, i);
-					Vec3 lookPos = MultiverseUtil.getLookPos(rot, this.position(), 0, 0, 8);
-					this.addChain(lookPos, lookPos.add(0, 10, 0), true, 30, 1.0F, ChainType.LASER);
-				}
-			}
 			if(this.chains.isEmpty())
 			{
 				this.addChain(this.position().add(0, 150, 0), this.position().subtract(0, 300, 0), false, 30, 10.0F, ChainType.GIANT);
@@ -133,44 +125,37 @@ public class EntityOrochi extends AbstractAnimatableMonster
 		}
 		else
 		{
-			if(!this.chains.isEmpty())
+			this.getChainByType(ChainType.GIANT, t -> 
 			{
-				for(OrochiChain chain : new ArrayList<>(this.chains))
+				ChainSegment segment = t.getSegments()[0];
+				Vec3 pos = segment.getPos();
+				if(pos.y >= this.getY())
 				{
-					if(chain.chainType != ChainType.GIANT)
-					{
-						continue;
-					}
-					ChainSegment segment = chain.getSegments()[0];
-					Vec3 pos = segment.getPos();
-					if(pos.y >= this.getY())
-					{
-						Vec3 groundPos = MultiverseUtil.getGroundPos(this.level, this.getX(), this.getY(), this.getZ(), -1);
-						this.setPhase(0);
-						this.setIntro(false);
-						this.setNoGravity(false);
-						this.setCanLook(true);
-						this.resetFallDistance();
-						this.setPos(groundPos);
-					}
-					else if(pos.y <= this.level.getMinBuildHeight() - 100)
-					{
-						for(ChainSegment segments : chain.getSegments())
-						{
-							segments.setPos(this.position().subtract(0, 50, 0));
-						}
-					}
-					else
-					{
-						chain.setAnchorPos(null);
-					}
-					if(chain.getTipSegment().getPos().y >= this.level.getMaxBuildHeight() - 100)
-					{
-						this.chains.clear();
-					}
-					chain.setTarget(this.position().add(0, 300, 0));
+					Vec3 groundPos = MultiverseUtil.getGroundPos(this.level, this.getX(), this.getY(), this.getZ(), -1);
+					this.setPhase(0);
+					this.setIntro(false);
+					this.setNoGravity(false);
+					this.setCanLook(true);
+					this.resetFallDistance();
+					this.setPos(groundPos);
 				}
-			}
+				else if(pos.y <= this.level.getMinBuildHeight() - 100)
+				{
+					for(ChainSegment segments : t.getSegments())
+					{
+						segments.setPos(this.position().subtract(0, 50, 0));
+					}
+				}
+				else
+				{
+					t.setAnchorPos(null);
+				}
+				if(t.getTipSegment().getPos().y >= this.level.getMaxBuildHeight() - 100)
+				{
+					this.chains.clear();
+				}
+				t.setTarget(this.position().add(0, 300, 0));
+			});
 		}
     }
     
@@ -279,10 +264,23 @@ public class EntityOrochi extends AbstractAnimatableMonster
 		this.chains.add(chain);
 	}
 	
+	public void getChainByType(ChainType type, Consumer<OrochiChain> consumer)
+	{
+		for(OrochiChain chain : new ArrayList<>(this.chains))
+		{
+			if(chain.chainType != type)
+			{
+				continue;
+			}
+			consumer.accept(chain);
+		}
+	}
+	
 	public static class OrochiChain extends KinematicChain	
 	{
 		public final SmoothAnimationState jawOpenAnimationState = new SmoothAnimationState();
 		public int tickCount;
+		public float lastTick;
 		public boolean openMouth;
 		public boolean isLaser;
 		public final float scale;
@@ -316,25 +314,22 @@ public class EntityOrochi extends AbstractAnimatableMonster
 					}
 					else if(this.chainType == ChainType.LASER)
 					{
-						if(this.tickCount <= 200 && orochi.getTarget() != null && orochi.getTarget().isAlive())
+						if(orochi.getTarget() != null && orochi.getTarget().isAlive())
 						{
 							this.openMouth = true;
 							this.isLaser = true;
+							if(this.lastTick == 0)
+							{
+								this.lastTick = this.tickCount;
+							}
 							tip.setPos(tip.getOldPos());
 							this.setTarget(orochi.getTarget().getEyePosition());
-						}
-						else
-						{
-							this.openMouth = false;
-							this.isLaser = false;
-							this.setAnchorPos(null);
-							this.setTarget(tip.getPos().subtract(0, 200, 0));
 						}
 					}
 				}
 			}
 			
-			if(this.isLaser)
+			if(this.isLaser && this.tickCount >= this.lastTick + 100)
 			{
 				List<LivingEntity> arrayList = new ArrayList<>();
 	        	Vec3 startPos = MultiverseUtil.getLookPos(tip.getRot(), tip.getPos(), 0.0F, 0.0F, -0.85F);

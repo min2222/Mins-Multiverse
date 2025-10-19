@@ -54,7 +54,7 @@ public class SinRenderer extends EntityRenderer<EntitySin>
 			p_114488_.pushPose();
 			p_114488_.mulPose(Axis.YP.rotationDegrees((float) -rot.y));
 			p_114488_.mulPose(Axis.XP.rotationDegrees((float) rot.x));
-			EfkEfcRenderer gate = EfkEfcLoader.getEfkEfcRenderer(p_114485_, "sin_gate");
+			EfkEfcRenderer gate = EfkEfcLoader.getEfkEfcRenderer(p_114485_, "sin_gate", p_114487_);
 			if(gate != null)
 			{
 				gate.render(p_114488_, p_114489_, p_114485_.tickCount, p_114487_);
@@ -66,7 +66,7 @@ public class SinRenderer extends EntityRenderer<EntitySin>
 			p_114488_.pushPose();
 			p_114488_.mulPose(Axis.YP.rotationDegrees(Mth.rotLerp(p_114487_, p_114485_.yRotO, p_114485_.getYRot()) + 180.0F));
 			p_114488_.mulPose(Axis.XP.rotationDegrees(Mth.lerp(p_114487_, p_114485_.xRotO, p_114485_.getXRot()) + 180.0F));
-			EfkEfcRenderer renderer = EfkEfcLoader.getEfkEfcRenderer(p_114485_, "sin_spear");
+			EfkEfcRenderer renderer = EfkEfcLoader.getEfkEfcRenderer(p_114485_, "sin_spear", p_114487_);
 			if(renderer != null && !p_114485_.getDeltaMovement().equals(Vec3.ZERO))
 			{
 				renderer.render(p_114488_, p_114489_, p_114485_.tickCount, p_114487_);
@@ -87,7 +87,7 @@ public class SinRenderer extends EntityRenderer<EntitySin>
 			p_114488_.pushPose();
 			p_114488_.mulPose(Axis.YP.rotationDegrees((float) -rot.y));
 			p_114488_.mulPose(Axis.XP.rotationDegrees((float) rot.x));
-			EfkEfcRenderer renderer = EfkEfcLoader.getEfkEfcRenderer(p_114485_, "sin_spear");
+			EfkEfcRenderer renderer = EfkEfcLoader.getEfkEfcRenderer(p_114485_, "sin_spear", p_114487_);
 			if(renderer != null && !p_114485_.getDeltaMovement().equals(Vec3.ZERO))
 			{
 				renderer.render(p_114488_, p_114489_, p_114485_.tickCount, p_114487_);

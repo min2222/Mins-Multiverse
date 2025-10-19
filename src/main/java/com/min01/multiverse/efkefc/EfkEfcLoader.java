@@ -41,7 +41,7 @@ public class EfkEfcLoader implements ResourceManagerReloadListener
 		}
 	}
 	
-	public static EfkEfcRenderer getEfkEfcRenderer(Entity entity, String name) 
+	public static EfkEfcRenderer getEfkEfcRenderer(Entity entity, String name, float partialTicks) 
 	{
 	    UUID uuid = entity.getUUID();
 	    if(!entity.isAlive()) 
@@ -52,8 +52,17 @@ public class EfkEfcLoader implements ResourceManagerReloadListener
 	    return ENTITY_RENDERERS.computeIfAbsent(uuid, key ->
 	    {
 	        EfkEffectData data = EFKEFC.get(name);
-	        return new EfkEfcRenderer(data.nodes, data.globalProperties);
+	        return new EfkEfcRenderer(data.nodes, data.globalProperties, entity.tickCount, partialTicks);
 	    });
+	}
+	
+	public static void remove(Entity entity)
+	{
+	    UUID uuid = entity.getUUID();
+	    if(ENTITY_RENDERERS.containsKey(uuid))
+	    {
+	        ENTITY_RENDERERS.remove(uuid);
+	    }
 	}
 
 	public static void init(ResourceManager manager) throws IOException

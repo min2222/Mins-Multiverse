@@ -43,7 +43,7 @@ public class ScarletMagicRenderer extends EntityRenderer<EntityScarletMagic>
 			p_114488_.pushPose();
 			p_114488_.mulPose(Axis.YP.rotationDegrees((float) -rot.y));
 			p_114488_.mulPose(Axis.XP.rotationDegrees((float) rot.x));
-			EfkEfcRenderer gate = EfkEfcLoader.getEfkEfcRenderer(p_114485_, "scarlet_gate");
+			EfkEfcRenderer gate = EfkEfcLoader.getEfkEfcRenderer(p_114485_, "scarlet_gate", p_114487_);
 			if(gate != null)
 			{
 				gate.render(p_114488_, p_114489_, p_114485_.tickCount, p_114487_);
