@@ -230,6 +230,11 @@ public class KinematicChain
 		return this.segments[this.segments.length - 1];
 	}
 	
+	public ChainSegment getLastSegment()
+	{
+		return this.segments[this.segments.length - 2];
+	}
+	
 	public static class ChainSegment
 	{
 		protected Vec3 position = Vec3.ZERO;

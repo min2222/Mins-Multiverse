@@ -3,9 +3,7 @@ package com.min01.multiverse.event;
 import com.min01.multiverse.MinsMultiverse;
 import com.min01.multiverse.entity.MultiverseEntities;
 import com.min01.multiverse.entity.living.EntityCreepeel;
-import com.min01.multiverse.entity.living.EntityKingofSin;
 import com.min01.multiverse.entity.living.EntityOrochi;
-import com.min01.multiverse.entity.living.EntityRakta;
 
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,8 +23,6 @@ public class EventHandler
     public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) 
     {
     	event.put(MultiverseEntities.CREEPEEL.get(), EntityCreepeel.createAttributes().build());
-    	event.put(MultiverseEntities.KING_OF_SIN.get(), EntityKingofSin.createAttributes().build());
-    	event.put(MultiverseEntities.RAKTA.get(), EntityRakta.createAttributes().build());
     	event.put(MultiverseEntities.OROCHI.get(), EntityOrochi.createAttributes().build());
     }
 }

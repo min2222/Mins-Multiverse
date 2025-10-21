@@ -2,10 +2,6 @@ package com.min01.multiverse.entity.ai.goal;
 
 import com.min01.multiverse.entity.living.EntityOrochi;
 import com.min01.multiverse.entity.living.EntityOrochi.ChainType;
-import com.min01.multiverse.util.MultiverseUtil;
-
-import net.minecraft.world.phys.Vec2;
-import net.minecraft.world.phys.Vec3;
 
 public class OrochiLaserGoal extends BasicAnimationSkillGoal<EntityOrochi>
 {
@@ -20,17 +16,12 @@ public class OrochiLaserGoal extends BasicAnimationSkillGoal<EntityOrochi>
 		super.start();
 		if(this.mob.isSnake())
 		{
+			this.mob.setWantedPos(this.mob.getTarget().getEyePosition().add(0, 10, 0));
 			this.mob.setAnim(true);
-			this.mob.setWantedPos(this.mob.getTarget().getEyePosition());
 		}
 		else
 		{
-			for(int i = 0; i < 360; i += 45)
-			{
-				Vec2 rot = new Vec2(0, i);
-				Vec3 lookPos = MultiverseUtil.getLookPos(rot, this.mob.position(), 0, 0, 8);
-				this.mob.addChain(lookPos, lookPos.add(0, MultiverseUtil.distanceToY(this.mob, this.mob.getTarget()) + 10, 0), true, 1.0F, ChainType.LASER);
-			}
+			this.mob.addChain(this.mob.position().subtract(0, 10, 0), this.mob.position().add(0, 100, 0), true, 10.0F, ChainType.LASER);
 		}
 	}
 	
@@ -58,7 +49,7 @@ public class OrochiLaserGoal extends BasicAnimationSkillGoal<EntityOrochi>
 			this.mob.setAnim(false);
 			this.mob.setLaser(false);
 			this.mob.setAnchorPos(null);
-			this.mob.setWantedPos(this.mob.position().subtract(0, 200, 0));
+			this.mob.setWantedPos(this.mob.position().subtract(0, 400, 0));
 		}
 	}
 

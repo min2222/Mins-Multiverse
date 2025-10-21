@@ -4,19 +4,13 @@ import com.min01.multiverse.MinsMultiverse;
 import com.min01.multiverse.efkefc.EfkEfcLoader;
 import com.min01.multiverse.entity.MultiverseEntities;
 import com.min01.multiverse.entity.model.ModelCreepeel;
-import com.min01.multiverse.entity.model.ModelHand;
-import com.min01.multiverse.entity.model.ModelKingofSin;
 import com.min01.multiverse.entity.model.ModelOrochi;
 import com.min01.multiverse.entity.model.ModelOrochiBody;
 import com.min01.multiverse.entity.model.ModelOrochiHead;
-import com.min01.multiverse.entity.model.ModelRakta;
+import com.min01.multiverse.entity.model.ModelOrochiTail;
 import com.min01.multiverse.entity.renderer.CreepeelRenderer;
-import com.min01.multiverse.entity.renderer.KingofSinRenderer;
 import com.min01.multiverse.entity.renderer.NoneRenderer;
 import com.min01.multiverse.entity.renderer.OrochiRenderer;
-import com.min01.multiverse.entity.renderer.RaktaRenderer;
-import com.min01.multiverse.entity.renderer.ScarletMagicRenderer;
-import com.min01.multiverse.entity.renderer.SinRenderer;
 import com.min01.multiverse.obj.ObjModelManager;
 
 import net.minecraftforge.api.distmarker.Dist;
@@ -46,10 +40,8 @@ public class ClientEventHandler
     public static void onRegisterLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event)
     {
     	event.registerLayerDefinition(ModelCreepeel.LAYER_LOCATION, ModelCreepeel::createBodyLayer);
-    	event.registerLayerDefinition(ModelKingofSin.LAYER_LOCATION, ModelKingofSin::createBodyLayer);
-    	event.registerLayerDefinition(ModelRakta.LAYER_LOCATION, ModelRakta::createBodyLayer);
-    	event.registerLayerDefinition(ModelHand.LAYER_LOCATION, ModelHand::createBodyLayer);
     	event.registerLayerDefinition(ModelOrochi.LAYER_LOCATION, ModelOrochi::createBodyLayer);
+    	event.registerLayerDefinition(ModelOrochiTail.LAYER_LOCATION, ModelOrochiTail::createBodyLayer);
     	event.registerLayerDefinition(ModelOrochiBody.LAYER_LOCATION, ModelOrochiBody::createBodyLayer);
     	event.registerLayerDefinition(ModelOrochiHead.LAYER_LOCATION, ModelOrochiHead::createBodyLayer);
     }
@@ -58,10 +50,6 @@ public class ClientEventHandler
     public static void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event)
     {
     	event.registerEntityRenderer(MultiverseEntities.CREEPEEL.get(), CreepeelRenderer::new);
-    	event.registerEntityRenderer(MultiverseEntities.KING_OF_SIN.get(), KingofSinRenderer::new);
-    	event.registerEntityRenderer(MultiverseEntities.RAKTA.get(), RaktaRenderer::new);
-    	event.registerEntityRenderer(MultiverseEntities.SIN.get(), SinRenderer::new);
-    	event.registerEntityRenderer(MultiverseEntities.SCARLET_MAGIC.get(), ScarletMagicRenderer::new);
     	event.registerEntityRenderer(MultiverseEntities.CAMERA_SHAKE.get(), NoneRenderer::new);
     	event.registerEntityRenderer(MultiverseEntities.OROCHI.get(), OrochiRenderer::new);
     }

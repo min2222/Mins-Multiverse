@@ -117,14 +117,10 @@ public class EntityOrochi extends AbstractAnimatableMonster
     			this.chain.tick();
     			this.chain.setTarget(this.getWantedPos());
     			this.chain.setAnchorPos(this.getAnchorPos());
-    			
-        		if(this.chain.getSegments()[0].getPos().y <= this.level.getMinBuildHeight())
-        		{
-        			this.discard();
-        		}
 
-    			ChainSegment tip = this.chain.getTipSegment();
-    			Vec3 tipPos = this.chain.getSegments()[this.chain.getSegments().length - 2].getPos();
+    			ChainSegment tip = this.chain.getLastSegment();
+    			Vec3 firstPos = this.chain.getSegments()[0].getPos();
+    			Vec3 tipPos = tip.getPos();
     			Vec2 rot = tip.getRot();
     			
     			this.setPos(tipPos);
@@ -138,11 +134,16 @@ public class EntityOrochi extends AbstractAnimatableMonster
     			this.yHeadRotO = rot.y;
     			this.yBodyRotO = rot.y;
     			
+        		if(firstPos.y < -128 && this.chain.getAnchorPos() == null)
+        		{
+        			this.discard();
+        		}
+    			
     			if(this.getChainType() == ChainType.LASER)
     			{
     				if(this.isAnim() && this.isReached())
     				{
-    					tip.setPos(tip.getOldPos());
+    					this.chain.setTarget(Vec3.ZERO);
     				}
     				if(this.isLaser())
     				{
@@ -157,7 +158,7 @@ public class EntityOrochi extends AbstractAnimatableMonster
 			            for(int i = 1; i < dist; ++i)
 			            {
 			            	Vec3 rayPos = startPos.add(normalizedPos.scale(i));
-			            	List<LivingEntity> list = this.level.getEntitiesOfClass(LivingEntity.class, new AABB(rayPos, rayPos).inflate(0.35F), t -> t != this && !t.isAlliedTo(this) && !(t instanceof EntityOrochi));
+			            	List<LivingEntity> list = this.level.getEntitiesOfClass(LivingEntity.class, new AABB(rayPos, rayPos).inflate(0.25F * this.getScale()), t -> t != this && !t.isAlliedTo(this) && !(t instanceof EntityOrochi));
 			            	list.forEach(t -> 
 			            	{
 			            		if(!arrayList.contains(t))
@@ -191,9 +192,14 @@ public class EntityOrochi extends AbstractAnimatableMonster
     	    		});
     	    	}
     		}
-    		
+
     		if(this.getOwner() != null)
     		{
+    			EntityOrochi orochi = (EntityOrochi) this.getOwner();
+    			if(orochi.getTarget() != null)
+    			{
+    				this.setTarget(orochi.getTarget());
+    			}
     			if(this.getChainType() == ChainType.CARRY)
     			{
     				this.setAnchorPos(null);
@@ -203,12 +209,12 @@ public class EntityOrochi extends AbstractAnimatableMonster
     					{
     						if(this.getWantedPos().y > this.level.getMinBuildHeight())
     						{
-                				this.setWantedPos(this.getOwner().position());
+                				this.setWantedPos(orochi.position());
     						}
     					}
     					else
         				{
-        					this.getOwner().startRiding(this);
+    						orochi.startRiding(this);
         					this.setWantedPos(Vec3.ZERO);
         				}
     				}
@@ -216,12 +222,12 @@ public class EntityOrochi extends AbstractAnimatableMonster
     				{
     					if(this.getWantedPos().equals(Vec3.ZERO))
     					{
-    						Vec3 pos = this.getOwner().position().add(0, 0, 20);
+    						Vec3 pos = MultiverseUtil.getLookPos(new Vec2(0, orochi.getYHeadRot()), orochi.position(), 0, 0, -20);
         					this.setWantedPos(MultiverseUtil.getGroundPos(this.level, pos.x, pos.y, pos.z, -1));
     					}
     					else if(this.isReached())
     					{
-    						this.getOwner().stopRiding();
+    						orochi.stopRiding();
     						this.setWantedPos(this.position().subtract(0, 200, 0));
     					}
     				}
@@ -247,7 +253,7 @@ public class EntityOrochi extends AbstractAnimatableMonster
     {
     	if(this.isSnake())
     	{
-    		return EntityDimensions.fixed(1.0F, 1.0F);
+    		return EntityDimensions.fixed(this.getScale(), this.getScale());
     	}
     	return super.getDimensions(p_21047_);
     }
@@ -433,7 +439,7 @@ public class EntityOrochi extends AbstractAnimatableMonster
 	{
 		if(this.chain != null)
 		{
-			return this.chain.getTarget().subtract(this.chain.getTipSegment().getPos()).length() <= 2.5F;
+			return this.chain.getTarget().subtract(this.position()).length() <= this.getScale() * 2.5F;
 		}
 		return false;
 	}
