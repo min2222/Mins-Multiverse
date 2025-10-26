@@ -16,7 +16,7 @@ public class OrochiLaserGoal extends BasicAnimationSkillGoal<EntityOrochi>
 		super.start();
 		if(this.mob.isSnake())
 		{
-			this.mob.setWantedPos(this.mob.getTarget().getEyePosition().add(0, 10, 0));
+			this.mob.setWantedPos(this.mob.getTarget().getEyePosition().add(0, 0, 40));
 			this.mob.setAnim(true);
 		}
 		else

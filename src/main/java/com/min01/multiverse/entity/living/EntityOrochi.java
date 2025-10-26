@@ -23,7 +23,9 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -147,55 +149,51 @@ public class EntityOrochi extends AbstractAnimatableMonster
     				}
     				if(this.isLaser())
     				{
-						List<LivingEntity> arrayList = new ArrayList<>();
-			        	Vec3 startPos = MultiverseUtil.getLookPos(tip.getRot(), tip.getPos(), 0.0F, 0.0F, -0.85F);
-						Vec3 lookPos = MultiverseUtil.getLookPos(tip.getRot(), startPos, 0.0F, 0.0F, 100.0F);
+    					List<LivingEntity> arrayList = new ArrayList<>();
+			        	Vec3 startPos = tip.getPos();
+						Vec3 lookPos = MultiverseUtil.getLookPos(tip.getRot(), startPos, 0.0F, 0.0F, 200.0F);
 						HitResult hitResult = this.level.clip(new ClipContext(startPos, lookPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
 			        	Vec3 hitPos = hitResult.getLocation();
 			            Vec3 targetPos = hitPos.subtract(startPos);
 			            Vec3 normalizedPos = targetPos.normalize();
-			            float dist = (float) startPos.distanceTo(hitPos);
-			            for(int i = 1; i < dist; ++i)
+			            for(int i = 1; i < Mth.floor(targetPos.length()); ++i)
 			            {
 			            	Vec3 rayPos = startPos.add(normalizedPos.scale(i));
 			            	List<LivingEntity> list = this.level.getEntitiesOfClass(LivingEntity.class, new AABB(rayPos, rayPos).inflate(0.25F * this.getScale()), t -> t != this && !t.isAlliedTo(this) && !(t instanceof EntityOrochi));
-			            	list.forEach(t -> 
-			            	{
-			            		if(!arrayList.contains(t))
-			            		{
-			            			arrayList.add(t);
-			            		}
-			            	});
+			            	arrayList.addAll(list);
 			            }
 			            arrayList.forEach(t -> 
 			            {
-			            	if(t.hurt(this.damageSources().indirectMagic(this, this), 6.0F))
+			            	if(t.hurt(this.damageSources().indirectMagic(this, this), 15.0F))
 			            	{
 			            		if(this.getOwner() != null)
 			            		{
-	    	    					this.getOwner().heal(5.0F);
+	    	    					this.getOwner().heal(15.0F);
 			            		}
 			            	}
 			            });
     				}
     			}
 
-    			for(ChainSegment segment : this.chain.getSegments())
+    			boolean flag = this.getOwner() instanceof EntityOrochi ? true : this.getChainType() != ChainType.CARRY;
+    			if(flag)
     			{
-    				Vec3 pos = segment.getPos();
-    	    		Vec3 size = new Vec3(0.5F, 0.5F, 0.5F).scale(this.getScale());
-    	    		AABB aabb = new AABB(size.reverse(), size).move(pos);
-    	    		List<LivingEntity> list = this.level.getEntitiesOfClass(LivingEntity.class, aabb, target -> target != this && !target.isAlliedTo(this) && !(target instanceof EntityOrochi));
-    	    		list.forEach(target ->
-    	    		{
-    	    			this.doHurtTarget(target);
-    	    		});
-    	    	}
+        			for(ChainSegment segment : this.chain.getSegments())
+        			{
+        				Vec3 pos = segment.getPos();
+        	    		Vec3 size = new Vec3(0.5F, 0.5F, 0.5F).scale(this.getScale());
+        	    		AABB aabb = new AABB(size.reverse(), size).move(pos);
+        	    		List<LivingEntity> list = this.level.getEntitiesOfClass(LivingEntity.class, aabb, target -> target != this.getOwner() && target != this && !target.isAlliedTo(this) && !(target instanceof EntityOrochi));
+        	    		list.forEach(target ->
+        	    		{
+        	    			this.doHurtTarget(target);
+        	    		});
+        	    	}
+    			}
     		}
 
-    		if(this.getOwner() != null)
-    		{
-    			EntityOrochi orochi = (EntityOrochi) this.getOwner();
+			if(this.getOwner() instanceof EntityOrochi orochi)
+			{
     			if(orochi.getTarget() != null)
     			{
     				this.setTarget(orochi.getTarget());
@@ -230,6 +228,43 @@ public class EntityOrochi extends AbstractAnimatableMonster
     						orochi.stopRiding();
     						this.setWantedPos(this.position().subtract(0, 200, 0));
     					}
+    				}
+    			}
+			}
+			else if(this.getOwner() != null)
+    		{
+				Entity entity = this.getOwner();
+    			if(this.getChainType() == ChainType.CARRY)
+    			{
+    				this.setAnchorPos(null);
+    				if(!this.isVehicle())
+    				{
+    					if(!this.isReached())
+    					{
+    						if(this.getWantedPos().y > this.level.getMinBuildHeight())
+    						{
+                				this.setWantedPos(entity.position());
+    						}
+    					}
+    					else
+        				{
+    						entity.startRiding(this);
+        					this.setWantedPos(Vec3.ZERO);
+        				}
+    				}
+    				else
+    				{
+						Vec3 pos = MultiverseUtil.getLookPos(new Vec2(entity.getXRot(), entity.getYHeadRot()), this.position(), 0, 0, 5);
+						HitResult hitResult = this.level.clip(new ClipContext(entity.position(), pos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
+    					this.setWantedPos(hitResult.getLocation());
+    				}
+    			}
+    			if(this.getChainType() == ChainType.SPIRIT)
+    			{
+    				this.setAnchorPos(null);
+    				if(this.tickCount >= 200 || this.isReached())
+    				{
+    					this.setWantedPos(this.position().subtract(0, 200, 0));
     				}
     			}
     		}
@@ -439,7 +474,7 @@ public class EntityOrochi extends AbstractAnimatableMonster
 	{
 		if(this.chain != null)
 		{
-			return this.chain.getTarget().subtract(this.position()).length() <= this.getScale() * 2.5F;
+			return this.position().distanceTo(this.chain.getTarget()) <= this.getScale() * 2.5F;
 		}
 		return false;
 	}
@@ -449,6 +484,7 @@ public class EntityOrochi extends AbstractAnimatableMonster
     	GIANT,
     	LASER,
     	CARRY,
+    	SPIRIT,
     	NORMAL
     }
 }

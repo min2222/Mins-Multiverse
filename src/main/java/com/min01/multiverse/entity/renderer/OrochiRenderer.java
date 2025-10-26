@@ -122,18 +122,37 @@ public class OrochiRenderer extends MobRenderer<EntityOrochi, ModelOrochi>
 				}
 				p_115458_.pushPose();
 				this.transform(p_115458_, camPos, pos, rot, p_115455_.getScale(), x, y, z);
-				if(i == chain.getSegments().length - 2)
+				if(p_115455_.getChainType() == ChainType.SPIRIT)
 				{
-					this.headModel.setupAnimOrochi(p_115455_.jawOpenAnimationState, p_115455_, 0, 0, p_115455_.tickCount + p_115457_, 0, 0);
-		            this.headModel.renderToBuffer(p_115458_, p_115459_.getBuffer(RenderType.entityCutoutNoCull(HEAD_TEXTURE)), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-				}
-				else if(i > 1)
-				{
-		            this.bodyModel.renderToBuffer(p_115458_, p_115459_.getBuffer(RenderType.entityCutoutNoCull(BODY_TEXTURE)), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+					if(i == chain.getSegments().length - 2)
+					{
+						this.headModel.setupAnimOrochi(p_115455_.jawOpenAnimationState, p_115455_, 0, 0, p_115455_.tickCount + p_115457_, 0, 0);
+			            this.headModel.renderToBuffer(p_115458_, p_115459_.getBuffer(RenderType.eyes(HEAD_TEXTURE)), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0.5F, 0.1F, 0.1F, 0.5F);
+					}
+					else if(i > 1)
+					{
+			            this.bodyModel.renderToBuffer(p_115458_, p_115459_.getBuffer(RenderType.eyes(BODY_TEXTURE)), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0.5F, 0.1F, 0.1F, 0.5F);
+					}
+					else
+					{
+						this.tailModel.renderToBuffer(p_115458_, p_115459_.getBuffer(RenderType.eyes(TAIL_TEXTURE)), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0.5F, 0.1F, 0.1F, 0.5F);
+					}
 				}
 				else
 				{
-					this.tailModel.renderToBuffer(p_115458_, p_115459_.getBuffer(RenderType.entityCutoutNoCull(TAIL_TEXTURE)), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+					if(i == chain.getSegments().length - 2)
+					{
+						this.headModel.setupAnimOrochi(p_115455_.jawOpenAnimationState, p_115455_, 0, 0, p_115455_.tickCount + p_115457_, 0, 0);
+			            this.headModel.renderToBuffer(p_115458_, p_115459_.getBuffer(RenderType.entityCutoutNoCull(HEAD_TEXTURE)), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+					}
+					else if(i > 1)
+					{
+			            this.bodyModel.renderToBuffer(p_115458_, p_115459_.getBuffer(RenderType.entityCutoutNoCull(BODY_TEXTURE)), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+					}
+					else
+					{
+						this.tailModel.renderToBuffer(p_115458_, p_115459_.getBuffer(RenderType.entityCutoutNoCull(TAIL_TEXTURE)), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+					}
 				}
 				p_115458_.popPose();
 			}

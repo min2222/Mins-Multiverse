@@ -1,0 +1,20 @@
+{
+	"type": "minecraft:entity",
+	"pools": [
+		{
+			"bonus_rolls": 0,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "minsmultiverse:call_of_orochi"
+				},
+				{
+					"type": "minecraft:item",
+					"name": "minsmultiverse:orb_of_orochi"
+				}
+			],
+			"rolls": 1
+		}
+	],
+	"random_sequence": "minsmultiverse:entities/orochi"
+}

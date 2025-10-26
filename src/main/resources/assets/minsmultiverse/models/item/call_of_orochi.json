@@ -1,0 +1,20 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "minsmultiverse:item/call_of_orochi"
+	},
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, 0, 135],
+			"translation": [-2.5, 0, 1],
+			"scale": [0.85, 0.85, 0.55]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, -180, -135],
+			"translation": [-2.5, 0, 1],
+			"scale": [0.85, 0.85, 0.55]
+		}
+	}
+}
