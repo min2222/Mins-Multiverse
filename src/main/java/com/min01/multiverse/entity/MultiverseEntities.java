@@ -1,7 +1,7 @@
 package com.min01.multiverse.entity;
 
 import com.min01.multiverse.MinsMultiverse;
-import com.min01.multiverse.entity.living.EntityCreepeel;
+import com.min01.multiverse.entity.living.EntityDeadman;
 import com.min01.multiverse.entity.living.EntityOrochi;
 
 import net.minecraft.resources.ResourceLocation;
@@ -16,10 +16,10 @@ public class MultiverseEntities
 {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MinsMultiverse.MODID);
 	
-	public static final RegistryObject<EntityType<EntityCreepeel>> CREEPEEL = registerEntity("creepeel", createBuilder(EntityCreepeel::new, MobCategory.WATER_AMBIENT).sized(1.0F, 1.0F));
 	public static final RegistryObject<EntityType<EntityOrochi>> OROCHI = registerEntity("orochi", createBuilder(EntityOrochi::new, MobCategory.MONSTER).sized(0.6F, 1.8F).clientTrackingRange(100));
+	public static final RegistryObject<EntityType<EntityDeadman>> DEADMAN = registerEntity("deadman", createBuilder(EntityDeadman::new, MobCategory.MONSTER).sized(0.6F, 1.95F));
 	
-	public static final RegistryObject<EntityType<Entity>> CAMERA_SHAKE = registerEntity("camera_shake", createBuilder(EntityCameraShake::new, MobCategory.MISC).sized(0.0F, 0.0F));
+	public static final RegistryObject<EntityType<Entity>> CAMERA_SHAKE = registerEntity("camera_shake", createBuilder(EntityCameraShake::new, MobCategory.MISC).sized(0.0F, 0.0F).updateInterval(1).setShouldReceiveVelocityUpdates(true).setTrackingRange(100).clientTrackingRange(100));
 	
 	public static <T extends Entity> EntityType.Builder<T> createBuilder(EntityType.EntityFactory<T> factory, MobCategory category)
 	{

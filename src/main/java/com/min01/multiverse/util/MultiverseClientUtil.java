@@ -2,26 +2,63 @@ package com.min01.multiverse.util;
 
 import java.awt.Color;
 
+import javax.annotation.Nonnull;
+
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector4f;
 
 import com.min01.multiverse.obj.Face;
 import com.min01.multiverse.obj.WavefrontObject;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class MultiverseClientUtil 
 {
 	public static final Minecraft MC = Minecraft.getInstance();
+    
+    public static void drawSlash(Matrix4f matrix4f, @Nonnull BufferBuilder buf, float x1, float y1, float z1, float x2, float y2, float z2, float r1, float g1, float b1, float a1, float r2, float g2, float b2, float a2, float width, float angle) 
+    {
+        float rads = (float)Math.toRadians(angle);
+        float ac = Mth.cos(rads);
+        float as = Mth.sin(rads);
+        float yaw = (float)Math.atan2(x2 - x1, z2 - z1);
+        float pitch = (float)Math.atan2(y2 - y1, Math.sqrt(Math.pow(x2 - x1, 2.0) + Math.pow(z2 - z1, 2.0)));
+        float tX1 = width * Mth.cos(yaw);
+        float tY1 = 0.0f;
+        float tZ1 = -width * Mth.sin(yaw);
+        float tX2 = width * Mth.sin(yaw) * -Mth.sin(pitch);
+        float tY2 = width * Mth.cos(pitch);
+        float tZ2 = width * Mth.cos(yaw) * -Mth.sin(pitch);
+        float tXc = tX1 * ac + tX2 * as;
+        float tYc = tY1 * ac + tY2 * as;
+        float tZc = tZ1 * ac + tZ2 * as;
+        float tXs = tX1 * -as + tX2 * ac;
+        float tYs = tY1 * -as + tY2 * ac;
+        float tZs = tZ1 * -as + tZ2 * ac;
+        buf.vertex(matrix4f, x1 - tXs, y1 - tYs, z1 - tZs).uv(0.0F, 0.0F).uv2(LightTexture.FULL_BRIGHT).color(r1, g1, b1, a1).overlayCoords(OverlayTexture.NO_OVERLAY).endVertex();
+        buf.vertex(matrix4f, x2 - tXs, y2 - tYs, z2 - tZs).uv(1.0F, 0.0F).uv2(LightTexture.FULL_BRIGHT).color(r2, g2, b2, a2).overlayCoords(OverlayTexture.NO_OVERLAY).endVertex();
+        buf.vertex(matrix4f, x2 + tXs, y2 + tYs, z2 + tZs).uv(1.0F, 1.0F).uv2(LightTexture.FULL_BRIGHT).color(r2, g2, b2, a2).overlayCoords(OverlayTexture.NO_OVERLAY).endVertex();
+        buf.vertex(matrix4f, x1 + tXs, y1 + tYs, z1 + tZs).uv(0.0F, 1.0F).uv2(LightTexture.FULL_BRIGHT).color(r1, g1, b1, a1).overlayCoords(OverlayTexture.NO_OVERLAY).endVertex();
+        
+        // removing this line will make slash half
+        buf.vertex(matrix4f, x1 - tXc, y1 - tYc, z1 - tZc).uv(0.0F, 0.0F).uv2(LightTexture.FULL_BRIGHT).color(r1, g1, b1, a1).overlayCoords(OverlayTexture.NO_OVERLAY).endVertex();
+        //
+        buf.vertex(matrix4f, x2 - tXc, y2 - tYc, z2 - tZc).uv(1.0F, 0.0F).uv2(LightTexture.FULL_BRIGHT).color(r2, g2, b2, a2).overlayCoords(OverlayTexture.NO_OVERLAY).endVertex();
+        buf.vertex(matrix4f, x2 + tXc, y2 + tYc, z2 + tZc).uv(1.0F, 1.0F).uv2(LightTexture.FULL_BRIGHT).color(r2, g2, b2, a2).overlayCoords(OverlayTexture.NO_OVERLAY).endVertex();
+        buf.vertex(matrix4f, x1 + tXc, y1 + tYc, z1 + tZc).uv(0.0F, 1.0F).uv2(LightTexture.FULL_BRIGHT).color(r1, g1, b1, a1).overlayCoords(OverlayTexture.NO_OVERLAY).endVertex();
+    }
 	
     public static void drawBox(AABB boundingBox, PoseStack stack, MultiBufferSource bufferIn, Vec3 rgb, int light, int alpha, RenderType renderType) 
     {

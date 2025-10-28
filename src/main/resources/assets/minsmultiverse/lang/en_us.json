@@ -1,7 +1,7 @@
 {
 	"itemGroup.minsmultiverse": "Min's Multiverse",
-	"entity.minsmultiverse.creepeel": "Creepeel",
 	"entity.minsmultiverse.orochi": "Orochi",
+	"entity.minsmultiverse.deadman": "???",
 	"entity.minsmultiverse.camera_shake": "Camera Shake",
 	"item.minsmultiverse.cupiditas": "Cupiditas",
 	"item.minsmultiverse.desidia": "Desidia",
@@ -12,6 +12,6 @@
 	"item.minsmultiverse.superbia": "Superbia",
 	"item.minsmultiverse.call_of_orochi": "Call of Orochi",
 	"item.minsmultiverse.orb_of_orochi": "Orb of Orochi",
-	"item.minsmultiverse.creepeel_spawn_egg": "Creepeel Spawn Egg",
-	"item.minsmultiverse.orochi_spawn_egg": "Orochi Spawn Egg"
+	"item.minsmultiverse.orochi_spawn_egg": "Orochi Spawn Egg",
+	"item.minsmultiverse.deadman_spawn_egg": "??? Spawn Egg"
 }

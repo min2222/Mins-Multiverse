@@ -17,7 +17,7 @@ public class MultiverseCreativeTabs
 
     public static final RegistryObject<CreativeModeTab> MINS_MULTIVERSE = CREATIVE_MODE_TAB.register("minsmultiverse", () -> CreativeModeTab.builder()
     		.title(Component.translatable("itemGroup.minsmultiverse"))
-    		.icon(() -> new ItemStack(MultiverseItems.CREEPEEL_SPAWN_EGG.get()))
+    		.icon(() -> new ItemStack(MultiverseItems.ORB_OF_OROCHI.get()))
     		.displayItems((enabledFeatures, output) -> 
     		{
     			for(RegistryObject<Item> items : MultiverseItems.ITEMS.getEntries())

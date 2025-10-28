@@ -22,6 +22,7 @@ public class MultiverseNetwork
 	public static void registerMessages()
 	{
 		CHANNEL.registerMessage(ID++, UpdatePosArrayPacket.class, UpdatePosArrayPacket::encode, UpdatePosArrayPacket::new, UpdatePosArrayPacket.Handler::onMessage);
+		CHANNEL.registerMessage(ID++, AddVFXPacket.class, AddVFXPacket::encode, AddVFXPacket::new, AddVFXPacket.Handler::onMessage);
 	}
 	
     public static <MSG> void sendToServer(MSG message) 

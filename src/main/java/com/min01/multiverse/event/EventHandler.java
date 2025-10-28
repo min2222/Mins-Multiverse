@@ -2,7 +2,7 @@ package com.min01.multiverse.event;
 
 import com.min01.multiverse.MinsMultiverse;
 import com.min01.multiverse.entity.MultiverseEntities;
-import com.min01.multiverse.entity.living.EntityCreepeel;
+import com.min01.multiverse.entity.living.EntityDeadman;
 import com.min01.multiverse.entity.living.EntityOrochi;
 
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -22,7 +22,7 @@ public class EventHandler
     @SubscribeEvent
     public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) 
     {
-    	event.put(MultiverseEntities.CREEPEEL.get(), EntityCreepeel.createAttributes().build());
     	event.put(MultiverseEntities.OROCHI.get(), EntityOrochi.createAttributes().build());
+    	event.put(MultiverseEntities.DEADMAN.get(), EntityDeadman.createAttributes().build());
     }
 }
