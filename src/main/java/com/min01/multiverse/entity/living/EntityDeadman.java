@@ -1,6 +1,8 @@
 package com.min01.multiverse.entity.living;
 
 import com.min01.multiverse.entity.AbstractAnimatableMonster;
+import com.min01.multiverse.entity.ai.goal.AbstractAnimationSkillGoal;
+import com.min01.multiverse.entity.ai.goal.DeadmanBackDashGoal;
 import com.min01.multiverse.entity.ai.goal.DeadmanDashGoal;
 import com.min01.multiverse.entity.ai.goal.DeadmanJumpGoal;
 import com.min01.multiverse.misc.SmoothAnimationState;
@@ -37,6 +39,8 @@ public class EntityDeadman extends AbstractAnimatableMonster
 	public final SmoothAnimationState smashAnimationState = new SmoothAnimationState();
 	public final SmoothAnimationState backdashAnimationState = new SmoothAnimationState();
 	
+	public Class<? extends AbstractAnimationSkillGoal<EntityDeadman>> goal;
+	
 	public EntityDeadman(EntityType<? extends Monster> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
@@ -55,6 +59,7 @@ public class EntityDeadman extends AbstractAnimatableMonster
     protected void registerGoals()
     {
     	super.registerGoals();
+    	this.goalSelector.addGoal(0, new DeadmanBackDashGoal(this));
     	this.goalSelector.addGoal(0, new DeadmanDashGoal(this));
     	this.goalSelector.addGoal(0, new DeadmanJumpGoal(this));
     	this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
@@ -87,9 +92,15 @@ public class EntityDeadman extends AbstractAnimatableMonster
     		}
     	}
     	
-    	if(this.getAnimationState() == 4)
+    	if(this.getAnimationState() == 4 || this.getAnimationState() == 2)
     	{
-    		this.setDeltaMovement(Vec3.ZERO);
+    		this.setDeltaMovement(this.getDeltaMovement().multiply(0, 1, 0));
+    		this.getNavigation().stop();
+    	}
+    	
+    	if(this.getAnimationState() == 4 && this.getAnimationTick() <= 0 && this.random.nextBoolean())
+    	{
+    		this.goal = DeadmanBackDashGoal.class;
     	}
     	
     	if(this.getAnimationState() == 3 && this.getAnimationTick() < 6)
@@ -107,9 +118,22 @@ public class EntityDeadman extends AbstractAnimatableMonster
     @Override
     public boolean hurt(DamageSource p_21016_, float p_21017_) 
     {
-    	if(this.isUsingSkill() && !p_21016_.is(DamageTypeTags.BYPASSES_INVULNERABILITY))
+    	if(!p_21016_.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && p_21016_.getDirectEntity() != null)
     	{
-    		return false;
+        	if(!this.isUsingSkill())
+        	{
+        		if(this.getAnimationState() != 2 && Math.random() <= 0.1F)
+        		{
+            		this.setAnimationState(2);
+            		this.setAnimationTick(40);
+            		this.setUsingSkill(true);
+            		return false;
+        		}
+        	}
+        	else
+    		{
+        		return false;
+    		}
     	}
     	return super.hurt(p_21016_, p_21017_);
     }

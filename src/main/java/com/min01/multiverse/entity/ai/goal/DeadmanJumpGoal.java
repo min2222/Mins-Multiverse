@@ -26,7 +26,7 @@ public class DeadmanJumpGoal extends BasicAnimationSkillGoal<EntityDeadman>
 	@Override
 	public boolean canUse()
 	{
-		return super.canUse() && this.mob.distanceTo(this.mob.getTarget()) <= 4.0F;
+		return super.canUse() && this.mob.distanceTo(this.mob.getTarget()) <= 8.0F && this.mob.onGround();
 	}
 	
 	@Override
@@ -38,12 +38,18 @@ public class DeadmanJumpGoal extends BasicAnimationSkillGoal<EntityDeadman>
 		{
 			this.mob.setAnimationState(3);
 		}
-	}
-	
-	@Override
-	public boolean requiresUpdateEveryTick() 
-	{
-		return true;
+
+		if(this.mob.getAnimationTick() == 18 && this.mob.getAnimationState() == 4)
+		{
+			List<LivingEntity> list = this.mob.level.getEntitiesOfClass(LivingEntity.class, this.mob.getBoundingBox().inflate(12.0F), t -> t != this.mob && !t.isAlliedTo(this.mob));
+			list.forEach(t ->
+			{
+				if(this.mob.doHurtTarget(t))
+				{
+					this.mob.heal(5.0F);
+				}
+			});
+		}
 	}
 
 	@Override
@@ -57,11 +63,6 @@ public class DeadmanJumpGoal extends BasicAnimationSkillGoal<EntityDeadman>
 		this.mob.setUsingSkill(true);
 		this.mob.setAnimationTick(20);
 		this.mob.setDeltaMovement(Vec3.ZERO);
-		List<LivingEntity> list = this.mob.level.getEntitiesOfClass(LivingEntity.class, this.mob.getBoundingBox().inflate(8.0F), t -> t != this.mob && !t.isAlliedTo(this.mob));
-		list.forEach(t ->
-		{
-			this.mob.doHurtTarget(t);
-		});
 	}
 
 	@Override
