@@ -8,7 +8,6 @@ import com.min01.multiverse.entity.ai.goal.DeadmanJumpGoal;
 import com.min01.multiverse.misc.SmoothAnimationState;
 import com.min01.multiverse.util.MultiverseUtil;
 
-import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -84,7 +83,7 @@ public class EntityDeadman extends AbstractAnimatableMonster
     	{
     		if(this.canLook())
     		{
-    			this.lookAt(Anchor.EYES, this.getTarget().getEyePosition());
+    			this.getLookControl().setLookAt(this.getTarget(), 100.0F, 100.0F);
     		}
     		if(this.canMove())
     		{

@@ -17,7 +17,6 @@ import com.min01.multiverse.misc.MultiverseEntityDataSerializers;
 import com.min01.multiverse.misc.SmoothAnimationState;
 import com.min01.multiverse.util.MultiverseUtil;
 
-import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -278,7 +277,7 @@ public class EntityOrochi extends AbstractAnimatableMonster
     	{
     		if(this.canLook() && !this.level.isClientSide)
     		{
-    			this.lookAt(Anchor.EYES, this.getTarget().getEyePosition());
+    			this.getLookControl().setLookAt(this.getTarget(), 100.0F, 100.0F);
     		}
     	}
     }
