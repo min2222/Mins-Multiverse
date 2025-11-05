@@ -47,8 +47,8 @@ public class DeadmanItemInHandLayer extends RenderLayer<EntityDeadman, ModelDead
 			this.getParentModel().body.translateAndRotate(p_117349_);
 			this.getParentModel().left_arm.translateAndRotate(p_117349_);
 			p_117349_.mulPose(Axis.XP.rotationDegrees(-90.0F));
-			p_117349_.translate(-0.05F, 0, 0.5F);
-			this.itemRenderer.renderItem(p_117352_, offHandStack, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, false, p_117349_, p_117350_, p_117351_);
+			p_117349_.translate(0.05F, 0, 0.5F);
+			this.itemRenderer.renderItem(p_117352_, offHandStack, ItemDisplayContext.THIRD_PERSON_LEFT_HAND, false, p_117349_, p_117350_, p_117351_);
 			p_117349_.popPose();
 		}
 	}
