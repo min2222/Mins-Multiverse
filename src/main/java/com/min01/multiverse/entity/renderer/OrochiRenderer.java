@@ -1,9 +1,6 @@
 package com.min01.multiverse.entity.renderer;
 
 import com.min01.multiverse.MinsMultiverse;
-import com.min01.multiverse.efkefc.EfkEfcLoader;
-import com.min01.multiverse.efkefc.EfkEfcRenderer;
-import com.min01.multiverse.efkefc.EfkEfcRenderer.EfkEfcEmitter;
 import com.min01.multiverse.entity.living.EntityOrochi;
 import com.min01.multiverse.entity.living.EntityOrochi.ChainType;
 import com.min01.multiverse.entity.model.ModelOrochi;
@@ -66,59 +63,6 @@ public class OrochiRenderer extends MobRenderer<EntityOrochi, ModelOrochi>
 				if(firstPos.y < -128 && chain.getAnchorPos() == null)
 				{
 					continue;
-				}
-				if(i == chain.getSegments().length - 2 && p_115455_.getChainType() == ChainType.LASER && p_115455_.isAnim())
-				{
-					p_115458_.pushPose();
-					p_115458_.scale(p_115455_.getScale(), p_115455_.getScale(), p_115455_.getScale());
-					EfkEfcRenderer renderer = EfkEfcLoader.getEfkEfcRenderer(p_115455_, "blood_laser", p_115457_);
-					if(renderer != null)
-					{
-						for(EfkEfcEmitter emitter : renderer.emitters)
-						{
-							if(emitter.node.name.equals("LaserParticle"))
-							{
-								p_115458_.pushPose();
-								p_115458_.mulPose(Axis.YP.rotationDegrees(-rot.y));
-								p_115458_.mulPose(Axis.XP.rotationDegrees(rot.x));
-								p_115458_.mulPose(Axis.YP.rotationDegrees(90.0F));
-								p_115458_.translate(0, 0.25F, 0);
-								renderer.render(p_115458_, p_115459_, emitter, p_115455_.tickCount, p_115457_);
-								p_115458_.popPose();
-							}
-							else if(emitter.node.name.equals("Laser"))
-							{
-								p_115458_.pushPose();
-								p_115458_.scale(0.25F, 0.25F, 0.25F);
-								p_115458_.mulPose(Axis.YP.rotationDegrees(-rot.y));
-								p_115458_.mulPose(Axis.XP.rotationDegrees(rot.x));
-								p_115458_.translate(0, 1.25F, 0);
-								renderer.render(p_115458_, p_115459_, emitter, p_115455_.tickCount, p_115457_);
-								p_115458_.popPose();
-							}
-							else if(emitter.node.name.equals("Particle"))
-							{
-								p_115458_.pushPose();
-								p_115458_.mulPose(Axis.YP.rotationDegrees(-rot.y));
-								p_115458_.mulPose(Axis.XP.rotationDegrees(rot.x));
-								p_115458_.mulPose(Axis.YP.rotationDegrees(90.0F));
-								p_115458_.translate(0, 0.25F, 0);
-								renderer.render(p_115458_, p_115459_, emitter, p_115455_.tickCount, p_115457_);
-								p_115458_.popPose();
-							}
-							else if(emitter.node.name.equals("LaserCore2"))
-							{
-								p_115458_.pushPose();
-								p_115458_.mulPose(Axis.YP.rotationDegrees(-rot.y));
-								p_115458_.mulPose(Axis.XP.rotationDegrees(rot.x));
-								p_115458_.mulPose(Axis.YP.rotationDegrees(90.0F));
-								p_115458_.translate(0, 0.25F, 0);
-								renderer.render(p_115458_, p_115459_, emitter, p_115455_.tickCount, p_115457_);
-								p_115458_.popPose();
-							}
-						}
-					}
-					p_115458_.popPose();
 				}
 				p_115458_.pushPose();
 				this.transform(p_115458_, camPos, pos, rot, p_115455_.getScale(), x, y, z);

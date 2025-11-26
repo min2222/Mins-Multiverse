@@ -1,7 +1,6 @@
 package com.min01.multiverse.event;
 
 import com.min01.multiverse.MinsMultiverse;
-import com.min01.multiverse.efkefc.EfkEfcLoader;
 import com.min01.multiverse.entity.MultiverseEntities;
 import com.min01.multiverse.entity.model.ModelDeadman;
 import com.min01.multiverse.entity.model.ModelOrochi;
@@ -33,7 +32,7 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public static void onRegisterClientReloadListeners(RegisterClientReloadListenersEvent event)
 	{
-		event.registerReloadListener(new EfkEfcLoader());
+		
 	}
 	
     @SubscribeEvent
